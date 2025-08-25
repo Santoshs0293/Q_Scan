@@ -4,6 +4,8 @@ import nmap
 import ssl
 import socket
 import re
+import json
+import os
 from cryptography import x509
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives.asymmetric import rsa, ec
@@ -13,12 +15,17 @@ from utils.crypto_db import is_quantum_vulnerable, get_pqc_alternative, get_secu
 from utils.helpers import setup_logger, calculate_entropy
 
 class WebScanner:
-    def __init__(self, target, login=None):
+    def __init__(self, target, login=None, policies=None):
         self.target = target
         self.login = login
         self.logger = setup_logger("WebScanner")
         self.nm = nmap.PortScanner()
         self.app = Flask(__name__)
+        self.policies = policies or [
+            {"name": "Deprecated TLS Versions", "rule": lambda proto, algo, bits: proto in ["SSLv3", "TLSv1.0", "TLSv1.1"], "severity": "High", "compliance": "PCI-DSS, GDPR"},
+            {"name": "Weak Ciphers", "rule": lambda proto, algo, bits: algo in ["DES", "3DES", "RC4"] or (algo in ["AES", "BLOWFISH"] and bits and bits < 128), "severity": "High", "compliance": "PCI-DSS, GDPR"}
+        ]
+        self.cbom = {"cryptographic_assets": []}
         self.setup_routes()
 
     def setup_routes(self):
@@ -31,7 +38,7 @@ class WebScanner:
 
     def scan(self):
         self.logger.info(f"Performing blackbox scan on {self.target}")
-        results = {"items": [], "skipped_items": []}
+        results = {"items": [], "skipped_items": [], "cbom": self.cbom}
         
         # Helper to check if port is open
         def is_port_open(host, port):
@@ -52,7 +59,7 @@ class WebScanner:
                 sock.close()
         
         # Use the cleaned target (hostname only)
-        hostname = self.target  # Already cleaned by main.py (e.g., 'localhost')
+        hostname = self.target
         try:
             socket.inet_pton(socket.AF_INET6, hostname)
             target_ip = hostname
@@ -63,6 +70,9 @@ class WebScanner:
         if is_port_open(target_ip, 80):
             try:
                 response = requests.get(f"http://{hostname}", timeout=5, verify=False)
+                policy_violations = self.check_policies([], None, "HTTP")
+                remediation = self.get_remediation_guidance([], None, "HTTP")
+                self.add_to_cbom("http", "protocol", [], {"status_code": response.status_code, "protocol": "HTTP", "metadata": {"url": f"http://{hostname}"}}, policy_violations)
                 results["items"].append({
                     "id": "http",
                     "type": "protocol",
@@ -76,7 +86,9 @@ class WebScanner:
                         "encryption_markers": None,
                         "heuristics": "HTTP protocol accessible, no encryption"
                     },
-                    "pqc_recommendation": "Severity: High; Migrate to HTTPS with quantum-resistant TLS ciphers (e.g., AES-256, CRYSTALS-Kyber)"
+                    "policy_violations": policy_violations,
+                    "pqc_recommendation": "Severity: High; Migrate to HTTPS with quantum-resistant TLS ciphers (e.g., AES-256, CRYSTALS-Kyber)",
+                    "remediation_guidance": remediation
                 })
             except RequestException as e:
                 results["skipped_items"].append(f"http://{hostname}:80: Connection error - {str(e).split('(')[0].strip()}")
@@ -106,7 +118,7 @@ class WebScanner:
             for tls_name, tls_protocol in tls_versions:
                 try:
                     context = ssl.SSLContext(tls_protocol)
-                    context.verify_mode = ssl.CERT_NONE  # Disable verify for localhost testing
+                    context.verify_mode = ssl.CERT_NONE
                     http = urllib3.PoolManager(ssl_context=context)
                     response = http.request('GET', f"https://{hostname}", timeout=5)
                     algorithms = self.analyze_tls(response, cert, cipher)
@@ -120,12 +132,17 @@ class WebScanner:
                         "encryption_markers": "TLS certificate detected" if cert else "TLS ciphers detected",
                         "heuristics": f"TLS-enabled service; version: {tls_name}"
                     }
+                    policy_violations = self.check_policies(algorithms, cert, tls_name)
+                    remediation = self.get_remediation_guidance(algorithms, cert, tls_name)
+                    self.add_to_cbom("https_443_tcp", "protocol", algorithms, analysis, policy_violations)
                     results["items"].append({
                         "id": "https_443_tcp",
                         "type": "protocol",
                         "algorithms": algorithms,
                         "analysis": analysis,
-                        "pqc_recommendation": self.get_pqc_recommendation(algorithms, is_tls=True)
+                        "policy_violations": policy_violations,
+                        "pqc_recommendation": self.get_pqc_recommendation(algorithms, is_tls=True),
+                        "remediation_guidance": remediation
                     })
                     break
                 except SSLError as ssl_err:
@@ -146,12 +163,17 @@ class WebScanner:
                                 "encryption_markers": "TLS certificate detected" if cert else "TLS ciphers detected",
                                 "heuristics": "TLS-enabled service; default TLS version"
                             }
+                            policy_violations = self.check_policies(algorithms, cert, "default")
+                            remediation = self.get_remediation_guidance(algorithms, cert, "default")
+                            self.add_to_cbom("https_443_tcp", "protocol", algorithms, analysis, policy_violations)
                             results["items"].append({
                                 "id": "https_443_tcp",
                                 "type": "protocol",
                                 "algorithms": algorithms,
                                 "analysis": analysis,
-                                "pqc_recommendation": self.get_pqc_recommendation(algorithms, is_tls=True)
+                                "policy_violations": policy_violations,
+                                "pqc_recommendation": self.get_pqc_recommendation(algorithms, is_tls=True),
+                                "remediation_guidance": remediation
                             })
                         except (SSLError, urllib3.exceptions.RequestError) as e:
                             results["skipped_items"].append(f"https://{hostname}:443: SSL error - {str(e).split('(')[0].strip()}")
@@ -192,16 +214,27 @@ class WebScanner:
                             algorithms = self.analyze_nmap_tls(service['script']['ssl-enum-ciphers'])
                             analysis["encryption_markers"] = "TLS ciphers detected"
                             analysis["heuristics"] = "TLS-enabled service"
+                        policy_violations = self.check_policies(algorithms, None, service['name'])
+                        remediation = self.get_remediation_guidance(algorithms, None, service['name'])
+                        self.add_to_cbom(f"port_{port}_{proto}", "port", algorithms, analysis, policy_violations)
                         results["items"].append({
                             "id": f"port_{port}_{proto}",
                             "type": "port",
                             "algorithms": algorithms,
                             "analysis": analysis,
-                            "pqc_recommendation": self.get_pqc_recommendation(algorithms, is_service=True)
+                            "policy_violations": policy_violations,
+                            "pqc_recommendation": self.get_pqc_recommendation(algorithms, is_service=True),
+                            "remediation_guidance": remediation
                         })
         except Exception as e:
             results["skipped_items"].append(f"Port scan: {str(e).split('(')[0].strip()}")
             self.logger.warning(f"Port scan failed: {e}")
+
+        # Save CBOM to file
+        cbom_path = os.path.join(os.getcwd(), f"{hostname}_cbom.json")
+        with open(cbom_path, "w") as f:
+            json.dump(self.cbom, f, indent=4)
+        self.logger.info(f"CBOM saved to {cbom_path}")
 
         return results
 
@@ -266,7 +299,13 @@ class WebScanner:
         return self.detect_algorithms(ssh_output)
 
     def analyze_nmap_tls(self, tls_output):
-        return self.detect_algorithms(tls_output)
+        algorithms = self.detect_algorithms(tls_output)
+        # Enhanced detection for key exchange methods
+        key_exchange = re.findall(r"\b(DHE|ECDHE|RSA)\b", tls_output, re.IGNORECASE)
+        for ke in key_exchange:
+            if ke.upper() in ["DHE", "ECDHE", "RSA"]:
+                algorithms.append({"base": ke.upper(), "bits": None, "full": ke.upper()})
+        return list({a['full']: a for a in algorithms}.values())
 
     def detect_algorithms(self, content):
         found = []
@@ -276,9 +315,58 @@ class WebScanner:
                 bits = int(m.group(1)) if m.group(1) else None
                 full = f"{base}-{bits}" if bits else base
                 found.append({"base": base, "bits": bits, "full": full})
-        # Deduplicate
-        unique = {f['full']: f for f in found}.values()
-        return list(unique)
+        return list({f['full']: f for f in found}.values())
+
+    def check_policies(self, algorithms, cert, protocol):
+        violations = []
+        for algo in algorithms:
+            for policy in self.policies:
+                if policy["rule"](protocol, algo["base"], algo["bits"]):
+                    violations.append({
+                        "policy_name": policy["name"],
+                        "severity": policy["severity"],
+                        "compliance": policy["compliance"],
+                        "details": f"{algo['full']} violates {policy['name']} in {protocol}"
+                    })
+        if cert and protocol in ["SSLv3", "TLSv1.0", "TLSv1.1"]:
+            violations.append({
+                "policy_name": "Deprecated TLS Versions",
+                "severity": "High",
+                "compliance": "PCI-DSS, GDPR",
+                "details": f"Certificate used with deprecated {protocol}"
+            })
+        return violations
+
+    def get_remediation_guidance(self, algorithms, cert, protocol):
+        guidance = []
+        if protocol in ["SSLv3", "TLSv1.0", "TLSv1.1"]:
+            guidance.append(f"Disable {protocol} and enable TLSv1.2 or TLSv1.3 with quantum-resistant ciphers (e.g., AES-256-GCM, CRYSTALS-Kyber)")
+        for algo in algorithms:
+            base = algo["base"]
+            if is_quantum_vulnerable(base, algo["bits"]):
+                alt = get_pqc_alternative(base, algo["bits"])
+                if protocol == "ssh":
+                    guidance.append(f"Update SSH configuration to use {alt} (e.g., `Ciphers aes256-ctr` in sshd_config)")
+                else:
+                    guidance.append(f"Configure {protocol} to use {alt} (e.g., set `SSLCipherSuite ECDHE-RSA-AES256-GCM-SHA384` in web server config)")
+            if base == "Hardcoded Key":
+                guidance.append("Remove hardcoded key; use secure key management (e.g., HashiCorp Vault)")
+        if not guidance:
+            guidance.append("No remediation required")
+        return "; ".join(guidance)
+
+    def add_to_cbom(self, item_id, item_type, algorithms, analysis, policy_violations):
+        asset = {
+            "id": item_id,
+            "type": item_type,
+            "algorithms": algorithms,
+            "metadata": analysis.get("metadata", {}),
+            "encryption_markers": analysis.get("encryption_markers", "None"),  # Handle None safely
+            "heuristics": analysis.get("heuristics", "None"),
+            "policy_violations": policy_violations,
+            "compliance_impact": [v["compliance"] for v in policy_violations] if policy_violations else []
+        }
+        self.cbom["cryptographic_assets"].append(asset)
 
     def get_pqc_recommendation(self, algorithms, is_tls=False, is_service=False):
         if is_tls and not algorithms:
@@ -289,8 +377,8 @@ class WebScanner:
             return "Severity: Low; No quantum-vulnerable algorithms detected"
         recommendations = []
         for a in algorithms:
-            base = a['base']
-            bits = a['bits']
+            base = a["base"]
+            bits = a["bits"]
             severity = get_severity(base, bits)
             if is_quantum_vulnerable(base, bits):
                 alt = get_pqc_alternative(base, bits)
@@ -299,7 +387,7 @@ class WebScanner:
                 recommendations.append(f"Severity: {severity}; Migrate {a['full']} (~{sec} bits security) to {alt} at {pqc_level}")
             else:
                 msg = f"Severity: {severity}; Safe: {a['full']} is quantum-resistant"
-                if base in ["CRYSTALS-Kyber", "Kyber", "CRYSTALS-Dilithium", "Dilithium", "FALCON", "SPHINCS+", "XMSS", "LMS", "BIKE", "HQC", "Classic McEliece", "NTRU", "FrodoKEM"]:
+                if base in ["CRYSTALS-KYBER", "KYBER", "CRYSTALS-DILITHIUM", "DILITHIUM", "FALCON", "SPHINCS+", "XMSS", "LMS", "BIKE", "HQC", "CLASSIC MCELIECE", "NTRU", "FRODOKEM"]:
                     msg += " (Post-Quantum Cryptography)"
                 recommendations.append(msg)
         return "; ".join(recommendations) if recommendations else "Severity: Low; No quantum-vulnerable algorithms detected"

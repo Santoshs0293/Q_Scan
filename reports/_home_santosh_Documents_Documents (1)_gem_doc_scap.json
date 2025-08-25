@@ -1,0 +1,107 @@
+{
+    "id": "qsecurescan-_home_santosh_Documents_Documents (1)_gem_doc-20250826011111",
+    "timestamp": "2025-08-26T01:11:11.255319",
+    "target": "/home/santosh/Documents/Documents (1)/gem_doc",
+    "vulnerabilities": [
+        {
+            "id": "QSEC-/home/santosh/Documents/Documents (1)/gem_doc/ATC_merged_merged.pdf",
+            "description": "RSA violates Minimum Key Strength",
+            "severity": "High",
+            "compliance": "GDPR, PCI-DSS",
+            "affected_item": "/home/santosh/Documents/Documents (1)/gem_doc/ATC_merged_merged.pdf",
+            "algorithms": "RSA, md5, RSA, rsA",
+            "recommendation": "Severity: High; Migrate RSA (~0 bits security) to CRYSTALS-Dilithium for signatures or CRYSTALS-Kyber for key exchange at level 1 (e.g., Kyber-512); Severity: High; Migrate md5 (~64 bits security) to SHA-256 at level 1 (e.g., Kyber-512); Severity: High; Migrate RSA (~0 bits security) to CRYSTALS-Dilithium for signatures or CRYSTALS-Kyber for key exchange at level 1 (e.g., Kyber-512); Severity: High; Migrate rsA (~0 bits security) to CRYSTALS-Dilithium for signatures or CRYSTALS-Kyber for key exchange at level 1 (e.g., Kyber-512)",
+            "remediation": "Replace RSA with CRYSTALS-Dilithium for signatures or CRYSTALS-Kyber for key exchange in /home/santosh/Documents/Documents (1)/gem_doc/ATC_merged_merged.pdf; Replace md5 with SHA-256 in /home/santosh/Documents/Documents (1)/gem_doc/ATC_merged_merged.pdf; Replace RSA with CRYSTALS-Dilithium for signatures or CRYSTALS-Kyber for key exchange in /home/santosh/Documents/Documents (1)/gem_doc/ATC_merged_merged.pdf; Replace rsA with CRYSTALS-Dilithium for signatures or CRYSTALS-Kyber for key exchange in /home/santosh/Documents/Documents (1)/gem_doc/ATC_merged_merged.pdf"
+        },
+        {
+            "id": "QSEC-/home/santosh/Documents/Documents (1)/gem_doc/ATC_merged_merged.pdf",
+            "description": "md5 violates Minimum Key Strength",
+            "severity": "High",
+            "compliance": "GDPR, PCI-DSS",
+            "affected_item": "/home/santosh/Documents/Documents (1)/gem_doc/ATC_merged_merged.pdf",
+            "algorithms": "RSA, md5, RSA, rsA",
+            "recommendation": "Severity: High; Migrate RSA (~0 bits security) to CRYSTALS-Dilithium for signatures or CRYSTALS-Kyber for key exchange at level 1 (e.g., Kyber-512); Severity: High; Migrate md5 (~64 bits security) to SHA-256 at level 1 (e.g., Kyber-512); Severity: High; Migrate RSA (~0 bits security) to CRYSTALS-Dilithium for signatures or CRYSTALS-Kyber for key exchange at level 1 (e.g., Kyber-512); Severity: High; Migrate rsA (~0 bits security) to CRYSTALS-Dilithium for signatures or CRYSTALS-Kyber for key exchange at level 1 (e.g., Kyber-512)",
+            "remediation": "Replace RSA with CRYSTALS-Dilithium for signatures or CRYSTALS-Kyber for key exchange in /home/santosh/Documents/Documents (1)/gem_doc/ATC_merged_merged.pdf; Replace md5 with SHA-256 in /home/santosh/Documents/Documents (1)/gem_doc/ATC_merged_merged.pdf; Replace RSA with CRYSTALS-Dilithium for signatures or CRYSTALS-Kyber for key exchange in /home/santosh/Documents/Documents (1)/gem_doc/ATC_merged_merged.pdf; Replace rsA with CRYSTALS-Dilithium for signatures or CRYSTALS-Kyber for key exchange in /home/santosh/Documents/Documents (1)/gem_doc/ATC_merged_merged.pdf"
+        },
+        {
+            "id": "QSEC-/home/santosh/Documents/Documents (1)/gem_doc/ATC_merged_merged.pdf",
+            "description": "RSA violates Minimum Key Strength",
+            "severity": "High",
+            "compliance": "GDPR, PCI-DSS",
+            "affected_item": "/home/santosh/Documents/Documents (1)/gem_doc/ATC_merged_merged.pdf",
+            "algorithms": "RSA, md5, RSA, rsA",
+            "recommendation": "Severity: High; Migrate RSA (~0 bits security) to CRYSTALS-Dilithium for signatures or CRYSTALS-Kyber for key exchange at level 1 (e.g., Kyber-512); Severity: High; Migrate md5 (~64 bits security) to SHA-256 at level 1 (e.g., Kyber-512); Severity: High; Migrate RSA (~0 bits security) to CRYSTALS-Dilithium for signatures or CRYSTALS-Kyber for key exchange at level 1 (e.g., Kyber-512); Severity: High; Migrate rsA (~0 bits security) to CRYSTALS-Dilithium for signatures or CRYSTALS-Kyber for key exchange at level 1 (e.g., Kyber-512)",
+            "remediation": "Replace RSA with CRYSTALS-Dilithium for signatures or CRYSTALS-Kyber for key exchange in /home/santosh/Documents/Documents (1)/gem_doc/ATC_merged_merged.pdf; Replace md5 with SHA-256 in /home/santosh/Documents/Documents (1)/gem_doc/ATC_merged_merged.pdf; Replace RSA with CRYSTALS-Dilithium for signatures or CRYSTALS-Kyber for key exchange in /home/santosh/Documents/Documents (1)/gem_doc/ATC_merged_merged.pdf; Replace rsA with CRYSTALS-Dilithium for signatures or CRYSTALS-Kyber for key exchange in /home/santosh/Documents/Documents (1)/gem_doc/ATC_merged_merged.pdf"
+        },
+        {
+            "id": "QSEC-/home/santosh/Documents/Documents (1)/gem_doc/ATC_merged_merged.pdf",
+            "description": "rsA violates Minimum Key Strength",
+            "severity": "High",
+            "compliance": "GDPR, PCI-DSS",
+            "affected_item": "/home/santosh/Documents/Documents (1)/gem_doc/ATC_merged_merged.pdf",
+            "algorithms": "RSA, md5, RSA, rsA",
+            "recommendation": "Severity: High; Migrate RSA (~0 bits security) to CRYSTALS-Dilithium for signatures or CRYSTALS-Kyber for key exchange at level 1 (e.g., Kyber-512); Severity: High; Migrate md5 (~64 bits security) to SHA-256 at level 1 (e.g., Kyber-512); Severity: High; Migrate RSA (~0 bits security) to CRYSTALS-Dilithium for signatures or CRYSTALS-Kyber for key exchange at level 1 (e.g., Kyber-512); Severity: High; Migrate rsA (~0 bits security) to CRYSTALS-Dilithium for signatures or CRYSTALS-Kyber for key exchange at level 1 (e.g., Kyber-512)",
+            "remediation": "Replace RSA with CRYSTALS-Dilithium for signatures or CRYSTALS-Kyber for key exchange in /home/santosh/Documents/Documents (1)/gem_doc/ATC_merged_merged.pdf; Replace md5 with SHA-256 in /home/santosh/Documents/Documents (1)/gem_doc/ATC_merged_merged.pdf; Replace RSA with CRYSTALS-Dilithium for signatures or CRYSTALS-Kyber for key exchange in /home/santosh/Documents/Documents (1)/gem_doc/ATC_merged_merged.pdf; Replace rsA with CRYSTALS-Dilithium for signatures or CRYSTALS-Kyber for key exchange in /home/santosh/Documents/Documents (1)/gem_doc/ATC_merged_merged.pdf"
+        },
+        {
+            "id": "QSEC-/home/santosh/Documents/Documents (1)/gem_doc/cbom.json",
+            "description": "RSA violates Minimum Key Strength",
+            "severity": "High",
+            "compliance": "GDPR, PCI-DSS",
+            "affected_item": "/home/santosh/Documents/Documents (1)/gem_doc/cbom.json",
+            "algorithms": "RSA, DES, MD5",
+            "recommendation": "Severity: High; Migrate RSA (~0 bits security) to CRYSTALS-Dilithium for signatures or CRYSTALS-Kyber for key exchange at level 1 (e.g., Kyber-512); Severity: High; Migrate DES (~56 bits security) to AES-256 at level 1 (e.g., Kyber-512); Severity: High; Migrate MD5 (~64 bits security) to SHA-256 at level 1 (e.g., Kyber-512)",
+            "remediation": "Replace RSA with CRYSTALS-Dilithium for signatures or CRYSTALS-Kyber for key exchange in /home/santosh/Documents/Documents (1)/gem_doc/cbom.json; Replace DES with AES-256 in /home/santosh/Documents/Documents (1)/gem_doc/cbom.json; Replace MD5 with SHA-256 in /home/santosh/Documents/Documents (1)/gem_doc/cbom.json"
+        },
+        {
+            "id": "QSEC-/home/santosh/Documents/Documents (1)/gem_doc/cbom.json",
+            "description": "DES violates Minimum Key Strength",
+            "severity": "High",
+            "compliance": "GDPR, PCI-DSS",
+            "affected_item": "/home/santosh/Documents/Documents (1)/gem_doc/cbom.json",
+            "algorithms": "RSA, DES, MD5",
+            "recommendation": "Severity: High; Migrate RSA (~0 bits security) to CRYSTALS-Dilithium for signatures or CRYSTALS-Kyber for key exchange at level 1 (e.g., Kyber-512); Severity: High; Migrate DES (~56 bits security) to AES-256 at level 1 (e.g., Kyber-512); Severity: High; Migrate MD5 (~64 bits security) to SHA-256 at level 1 (e.g., Kyber-512)",
+            "remediation": "Replace RSA with CRYSTALS-Dilithium for signatures or CRYSTALS-Kyber for key exchange in /home/santosh/Documents/Documents (1)/gem_doc/cbom.json; Replace DES with AES-256 in /home/santosh/Documents/Documents (1)/gem_doc/cbom.json; Replace MD5 with SHA-256 in /home/santosh/Documents/Documents (1)/gem_doc/cbom.json"
+        },
+        {
+            "id": "QSEC-/home/santosh/Documents/Documents (1)/gem_doc/cbom.json",
+            "description": "DES violates Deprecated Algorithms",
+            "severity": "High",
+            "compliance": "GDPR, PCI-DSS",
+            "affected_item": "/home/santosh/Documents/Documents (1)/gem_doc/cbom.json",
+            "algorithms": "RSA, DES, MD5",
+            "recommendation": "Severity: High; Migrate RSA (~0 bits security) to CRYSTALS-Dilithium for signatures or CRYSTALS-Kyber for key exchange at level 1 (e.g., Kyber-512); Severity: High; Migrate DES (~56 bits security) to AES-256 at level 1 (e.g., Kyber-512); Severity: High; Migrate MD5 (~64 bits security) to SHA-256 at level 1 (e.g., Kyber-512)",
+            "remediation": "Replace RSA with CRYSTALS-Dilithium for signatures or CRYSTALS-Kyber for key exchange in /home/santosh/Documents/Documents (1)/gem_doc/cbom.json; Replace DES with AES-256 in /home/santosh/Documents/Documents (1)/gem_doc/cbom.json; Replace MD5 with SHA-256 in /home/santosh/Documents/Documents (1)/gem_doc/cbom.json"
+        },
+        {
+            "id": "QSEC-/home/santosh/Documents/Documents (1)/gem_doc/cbom.json",
+            "description": "MD5 violates Minimum Key Strength",
+            "severity": "High",
+            "compliance": "GDPR, PCI-DSS",
+            "affected_item": "/home/santosh/Documents/Documents (1)/gem_doc/cbom.json",
+            "algorithms": "RSA, DES, MD5",
+            "recommendation": "Severity: High; Migrate RSA (~0 bits security) to CRYSTALS-Dilithium for signatures or CRYSTALS-Kyber for key exchange at level 1 (e.g., Kyber-512); Severity: High; Migrate DES (~56 bits security) to AES-256 at level 1 (e.g., Kyber-512); Severity: High; Migrate MD5 (~64 bits security) to SHA-256 at level 1 (e.g., Kyber-512)",
+            "remediation": "Replace RSA with CRYSTALS-Dilithium for signatures or CRYSTALS-Kyber for key exchange in /home/santosh/Documents/Documents (1)/gem_doc/cbom.json; Replace DES with AES-256 in /home/santosh/Documents/Documents (1)/gem_doc/cbom.json; Replace MD5 with SHA-256 in /home/santosh/Documents/Documents (1)/gem_doc/cbom.json"
+        },
+        {
+            "id": "QSEC-/home/santosh/Documents/Documents (1)/gem_doc/cbom.json",
+            "description": "MD5 violates Deprecated Algorithms",
+            "severity": "High",
+            "compliance": "GDPR, PCI-DSS",
+            "affected_item": "/home/santosh/Documents/Documents (1)/gem_doc/cbom.json",
+            "algorithms": "RSA, DES, MD5",
+            "recommendation": "Severity: High; Migrate RSA (~0 bits security) to CRYSTALS-Dilithium for signatures or CRYSTALS-Kyber for key exchange at level 1 (e.g., Kyber-512); Severity: High; Migrate DES (~56 bits security) to AES-256 at level 1 (e.g., Kyber-512); Severity: High; Migrate MD5 (~64 bits security) to SHA-256 at level 1 (e.g., Kyber-512)",
+            "remediation": "Replace RSA with CRYSTALS-Dilithium for signatures or CRYSTALS-Kyber for key exchange in /home/santosh/Documents/Documents (1)/gem_doc/cbom.json; Replace DES with AES-256 in /home/santosh/Documents/Documents (1)/gem_doc/cbom.json; Replace MD5 with SHA-256 in /home/santosh/Documents/Documents (1)/gem_doc/cbom.json"
+        },
+        {
+            "id": "QSEC-/home/santosh/Documents/Documents (1)/gem_doc/experiance.pdf",
+            "description": "dEs violates Minimum Key Strength",
+            "severity": "High",
+            "compliance": "GDPR, PCI-DSS",
+            "affected_item": "/home/santosh/Documents/Documents (1)/gem_doc/experiance.pdf",
+            "algorithms": "dEs",
+            "recommendation": "Severity: High; Migrate dEs (~56 bits security) to AES-256 at level 1 (e.g., Kyber-512)",
+            "remediation": "Replace dEs with AES-256 in /home/santosh/Documents/Documents (1)/gem_doc/experiance.pdf"
+        }
+    ]
+}

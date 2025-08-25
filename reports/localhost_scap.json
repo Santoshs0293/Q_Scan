@@ -1,0 +1,17 @@
+{
+    "id": "qsecurescan-localhost-20250826012413",
+    "timestamp": "2025-08-26T01:24:13.610242",
+    "target": "https://localhost",
+    "vulnerabilities": [
+        {
+            "id": "QSEC-port_7070_tcp",
+            "description": "3DES violates Weak Ciphers in realserver",
+            "severity": "High",
+            "compliance": "PCI-DSS, GDPR",
+            "affected_item": "port_7070_tcp",
+            "algorithms": "RSA-2048, DH-2048, 3DES, RSA",
+            "recommendation": "Severity: High; Migrate RSA-2048 (~113 bits security) to CRYSTALS-Dilithium for signatures or CRYSTALS-Kyber for key exchange at level 1 (e.g., Kyber-512); Severity: High; Migrate DH-2048 (~113 bits security) to CRYSTALS-Kyber at level 1 (e.g., Kyber-512); Severity: High; Migrate 3DES (~56 bits security) to AES-256 at level 1 (e.g., Kyber-512); Severity: High; Migrate RSA (~0 bits security) to CRYSTALS-Dilithium for signatures or CRYSTALS-Kyber for key exchange at level 1 (e.g., Kyber-512)",
+            "remediation": "Configure realserver to use CRYSTALS-Dilithium for signatures or CRYSTALS-Kyber for key exchange (e.g., set `SSLCipherSuite ECDHE-RSA-AES256-GCM-SHA384` in web server config); Configure realserver to use CRYSTALS-Kyber (e.g., set `SSLCipherSuite ECDHE-RSA-AES256-GCM-SHA384` in web server config); Configure realserver to use AES-256 (e.g., set `SSLCipherSuite ECDHE-RSA-AES256-GCM-SHA384` in web server config); Configure realserver to use CRYSTALS-Dilithium for signatures or CRYSTALS-Kyber for key exchange (e.g., set `SSLCipherSuite ECDHE-RSA-AES256-GCM-SHA384` in web server config)"
+        }
+    ]
+}

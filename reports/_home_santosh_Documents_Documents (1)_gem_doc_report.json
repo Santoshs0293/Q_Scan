@@ -1,6 +1,6 @@
 {
     "target": "/home/santosh/Documents/Documents (1)/gem_doc",
-    "scan_time": "2025-08-04T22:20:56.386903",
+    "scan_time": "2025-08-26T01:11:11.254478",
     "items": [
         {
             "id": "/home/santosh/Documents/Documents (1)/gem_doc/Ravi_internship.pdf",
@@ -18,12 +18,35 @@
                 "encryption_markers": null,
                 "heuristics": "Likely encrypted file"
             },
-            "pqc_recommendation": "High-entropy file, possibly encrypted; consider migrating to quantum-resistant algorithms like AES-256 or CRYSTALS-Kyber"
+            "policy_violations": [],
+            "pqc_recommendation": "Severity: Medium; High-entropy file, possibly encrypted; consider migrating to quantum-resistant algorithms like AES-256 or CRYSTALS-Kyber",
+            "remediation_guidance": "No remediation required"
         },
         {
             "id": "/home/santosh/Documents/Documents (1)/gem_doc/ATC_merged_merged.pdf",
             "type": "file",
-            "algorithms": [],
+            "algorithms": [
+                {
+                    "base": "RSA",
+                    "bits": null,
+                    "full": "RSA"
+                },
+                {
+                    "base": "md5",
+                    "bits": null,
+                    "full": "md5"
+                },
+                {
+                    "base": "RSA",
+                    "bits": null,
+                    "full": "RSA"
+                },
+                {
+                    "base": "rsA",
+                    "bits": null,
+                    "full": "rsA"
+                }
+            ],
             "analysis": {
                 "entropy": 7.967337111182288,
                 "header": "unknown",
@@ -36,7 +59,34 @@
                 "encryption_markers": null,
                 "heuristics": "Likely encrypted file"
             },
-            "pqc_recommendation": "High-entropy file, possibly encrypted; consider migrating to quantum-resistant algorithms like AES-256 or CRYSTALS-Kyber"
+            "policy_violations": [
+                {
+                    "policy_name": "Minimum Key Strength",
+                    "severity": "High",
+                    "compliance": "GDPR, PCI-DSS",
+                    "details": "RSA violates Minimum Key Strength"
+                },
+                {
+                    "policy_name": "Minimum Key Strength",
+                    "severity": "High",
+                    "compliance": "GDPR, PCI-DSS",
+                    "details": "md5 violates Minimum Key Strength"
+                },
+                {
+                    "policy_name": "Minimum Key Strength",
+                    "severity": "High",
+                    "compliance": "GDPR, PCI-DSS",
+                    "details": "RSA violates Minimum Key Strength"
+                },
+                {
+                    "policy_name": "Minimum Key Strength",
+                    "severity": "High",
+                    "compliance": "GDPR, PCI-DSS",
+                    "details": "rsA violates Minimum Key Strength"
+                }
+            ],
+            "pqc_recommendation": "Severity: High; Migrate RSA (~0 bits security) to CRYSTALS-Dilithium for signatures or CRYSTALS-Kyber for key exchange at level 1 (e.g., Kyber-512); Severity: High; Migrate md5 (~64 bits security) to SHA-256 at level 1 (e.g., Kyber-512); Severity: High; Migrate RSA (~0 bits security) to CRYSTALS-Dilithium for signatures or CRYSTALS-Kyber for key exchange at level 1 (e.g., Kyber-512); Severity: High; Migrate rsA (~0 bits security) to CRYSTALS-Dilithium for signatures or CRYSTALS-Kyber for key exchange at level 1 (e.g., Kyber-512)",
+            "remediation_guidance": "Replace RSA with CRYSTALS-Dilithium for signatures or CRYSTALS-Kyber for key exchange in /home/santosh/Documents/Documents (1)/gem_doc/ATC_merged_merged.pdf; Replace md5 with SHA-256 in /home/santosh/Documents/Documents (1)/gem_doc/ATC_merged_merged.pdf; Replace RSA with CRYSTALS-Dilithium for signatures or CRYSTALS-Kyber for key exchange in /home/santosh/Documents/Documents (1)/gem_doc/ATC_merged_merged.pdf; Replace rsA with CRYSTALS-Dilithium for signatures or CRYSTALS-Kyber for key exchange in /home/santosh/Documents/Documents (1)/gem_doc/ATC_merged_merged.pdf"
         },
         {
             "id": "/home/santosh/Documents/Documents (1)/gem_doc/ATC3.pdf",
@@ -54,7 +104,9 @@
                 "encryption_markers": null,
                 "heuristics": "Likely encrypted file"
             },
-            "pqc_recommendation": "High-entropy file, possibly encrypted; consider migrating to quantum-resistant algorithms like AES-256 or CRYSTALS-Kyber"
+            "policy_violations": [],
+            "pqc_recommendation": "Severity: Medium; High-entropy file, possibly encrypted; consider migrating to quantum-resistant algorithms like AES-256 or CRYSTALS-Kyber",
+            "remediation_guidance": "No remediation required"
         },
         {
             "id": "/home/santosh/Documents/Documents (1)/gem_doc/Company_Profile_ARD.pdf",
@@ -72,7 +124,9 @@
                 "encryption_markers": null,
                 "heuristics": "Likely encrypted file"
             },
-            "pqc_recommendation": "High-entropy file, possibly encrypted; consider migrating to quantum-resistant algorithms like AES-256 or CRYSTALS-Kyber"
+            "policy_violations": [],
+            "pqc_recommendation": "Severity: Medium; High-entropy file, possibly encrypted; consider migrating to quantum-resistant algorithms like AES-256 or CRYSTALS-Kyber",
+            "remediation_guidance": "No remediation required"
         },
         {
             "id": "/home/santosh/Documents/Documents (1)/gem_doc/CDOT_CCRP_Application_Form.pdf",
@@ -90,7 +144,78 @@
                 "encryption_markers": null,
                 "heuristics": "Likely encrypted file"
             },
-            "pqc_recommendation": "High-entropy file, possibly encrypted; consider migrating to quantum-resistant algorithms like AES-256 or CRYSTALS-Kyber"
+            "policy_violations": [],
+            "pqc_recommendation": "Severity: Medium; High-entropy file, possibly encrypted; consider migrating to quantum-resistant algorithms like AES-256 or CRYSTALS-Kyber",
+            "remediation_guidance": "No remediation required"
+        },
+        {
+            "id": "/home/santosh/Documents/Documents (1)/gem_doc/cbom.json",
+            "type": "file",
+            "algorithms": [
+                {
+                    "base": "RSA",
+                    "bits": null,
+                    "full": "RSA"
+                },
+                {
+                    "base": "DES",
+                    "bits": null,
+                    "full": "DES"
+                },
+                {
+                    "base": "MD5",
+                    "bits": null,
+                    "full": "MD5"
+                }
+            ],
+            "analysis": {
+                "entropy": 3.961768902530771,
+                "header": "unknown",
+                "extension": ".json",
+                "metadata": {
+                    "size": 14817,
+                    "mtime": 1756150791.693899,
+                    "mime_type": "application/json"
+                },
+                "encryption_markers": null,
+                "heuristics": "Low entropy, no encryption detected"
+            },
+            "policy_violations": [
+                {
+                    "policy_name": "Minimum Key Strength",
+                    "severity": "High",
+                    "compliance": "GDPR, PCI-DSS",
+                    "details": "RSA violates Minimum Key Strength"
+                },
+                {
+                    "policy_name": "Minimum Key Strength",
+                    "severity": "High",
+                    "compliance": "GDPR, PCI-DSS",
+                    "details": "DES violates Minimum Key Strength"
+                },
+                {
+                    "policy_name": "Deprecated Algorithms",
+                    "severity": "High",
+                    "compliance": "GDPR, PCI-DSS",
+                    "details": "DES violates Deprecated Algorithms"
+                },
+                {
+                    "policy_name": "Minimum Key Strength",
+                    "severity": "High",
+                    "compliance": "GDPR, PCI-DSS",
+                    "details": "MD5 violates Minimum Key Strength"
+                },
+                {
+                    "policy_name": "Deprecated Algorithms",
+                    "severity": "High",
+                    "compliance": "GDPR, PCI-DSS",
+                    "details": "MD5 violates Deprecated Algorithms"
+                }
+            ],
+            "pqc_recommendation": "Severity: High; Migrate RSA (~0 bits security) to CRYSTALS-Dilithium for signatures or CRYSTALS-Kyber for key exchange at level 1 (e.g., Kyber-512); Severity: High; Migrate DES (~56 bits security) to AES-256 at level 1 (e.g., Kyber-512); Severity: High; Migrate MD5 (~64 bits security) to SHA-256 at level 1 (e.g., Kyber-512)",
+            "remediation_guidance": "Replace RSA with CRYSTALS-Dilithium for signatures or CRYSTALS-Kyber for key exchange in /home/santosh/Documents/Documents (1)/gem_doc/cbom.json; Replace DES with AES-256 in /home/santosh/Documents/Documents (1)/gem_doc/cbom.json; Replace MD5 with SHA-256 in /home/santosh/Documents/Documents (1)/gem_doc/cbom.json",
+            "is_anomaly": true,
+            "anomaly_details": "Anomalous item: /home/santosh/Documents/Documents (1)/gem_doc/cbom.json"
         },
         {
             "id": "/home/santosh/Documents/Documents (1)/gem_doc/letterhead.odt",
@@ -108,12 +233,20 @@
                 "encryption_markers": null,
                 "heuristics": "High entropy, possible encryption or compression"
             },
-            "pqc_recommendation": "High-entropy file, possibly encrypted; consider migrating to quantum-resistant algorithms like AES-256 or CRYSTALS-Kyber"
+            "policy_violations": [],
+            "pqc_recommendation": "Severity: Medium; High-entropy file, possibly encrypted; consider migrating to quantum-resistant algorithms like AES-256 or CRYSTALS-Kyber",
+            "remediation_guidance": "No remediation required"
         },
         {
             "id": "/home/santosh/Documents/Documents (1)/gem_doc/experiance.pdf",
             "type": "file",
-            "algorithms": [],
+            "algorithms": [
+                {
+                    "base": "dEs",
+                    "bits": null,
+                    "full": "dEs"
+                }
+            ],
             "analysis": {
                 "entropy": 7.976810734266773,
                 "header": "unknown",
@@ -126,7 +259,16 @@
                 "encryption_markers": null,
                 "heuristics": "Likely encrypted file"
             },
-            "pqc_recommendation": "High-entropy file, possibly encrypted; consider migrating to quantum-resistant algorithms like AES-256 or CRYSTALS-Kyber"
+            "policy_violations": [
+                {
+                    "policy_name": "Minimum Key Strength",
+                    "severity": "High",
+                    "compliance": "GDPR, PCI-DSS",
+                    "details": "dEs violates Minimum Key Strength"
+                }
+            ],
+            "pqc_recommendation": "Severity: High; Migrate dEs (~56 bits security) to AES-256 at level 1 (e.g., Kyber-512)",
+            "remediation_guidance": "Replace dEs with AES-256 in /home/santosh/Documents/Documents (1)/gem_doc/experiance.pdf"
         },
         {
             "id": "/home/santosh/Documents/Documents (1)/gem_doc/ATC4.pdf",
@@ -144,7 +286,9 @@
                 "encryption_markers": null,
                 "heuristics": "Likely encrypted file"
             },
-            "pqc_recommendation": "High-entropy file, possibly encrypted; consider migrating to quantum-resistant algorithms like AES-256 or CRYSTALS-Kyber"
+            "policy_violations": [],
+            "pqc_recommendation": "Severity: Medium; High-entropy file, possibly encrypted; consider migrating to quantum-resistant algorithms like AES-256 or CRYSTALS-Kyber",
+            "remediation_guidance": "No remediation required"
         },
         {
             "id": "/home/santosh/Documents/Documents (1)/gem_doc/Company_Profile (copy).odt",
@@ -162,7 +306,9 @@
                 "encryption_markers": null,
                 "heuristics": "High entropy, possible encryption or compression"
             },
-            "pqc_recommendation": "High-entropy file, possibly encrypted; consider migrating to quantum-resistant algorithms like AES-256 or CRYSTALS-Kyber"
+            "policy_violations": [],
+            "pqc_recommendation": "Severity: Medium; High-entropy file, possibly encrypted; consider migrating to quantum-resistant algorithms like AES-256 or CRYSTALS-Kyber",
+            "remediation_guidance": "No remediation required"
         },
         {
             "id": "/home/santosh/Documents/Documents (1)/gem_doc/STEM_proposal.odt",
@@ -180,7 +326,9 @@
                 "encryption_markers": null,
                 "heuristics": "High entropy, possible encryption or compression"
             },
-            "pqc_recommendation": "High-entropy file, possibly encrypted; consider migrating to quantum-resistant algorithms like AES-256 or CRYSTALS-Kyber"
+            "policy_violations": [],
+            "pqc_recommendation": "Severity: Medium; High-entropy file, possibly encrypted; consider migrating to quantum-resistant algorithms like AES-256 or CRYSTALS-Kyber",
+            "remediation_guidance": "No remediation required"
         },
         {
             "id": "/home/santosh/Documents/Documents (1)/gem_doc/Company_Profile.odt",
@@ -198,7 +346,9 @@
                 "encryption_markers": null,
                 "heuristics": "High entropy, possible encryption or compression"
             },
-            "pqc_recommendation": "High-entropy file, possibly encrypted; consider migrating to quantum-resistant algorithms like AES-256 or CRYSTALS-Kyber"
+            "policy_violations": [],
+            "pqc_recommendation": "Severity: Medium; High-entropy file, possibly encrypted; consider migrating to quantum-resistant algorithms like AES-256 or CRYSTALS-Kyber",
+            "remediation_guidance": "No remediation required"
         },
         {
             "id": "/home/santosh/Documents/Documents (1)/gem_doc/ATC2.pdf",
@@ -216,7 +366,9 @@
                 "encryption_markers": null,
                 "heuristics": "Likely encrypted file"
             },
-            "pqc_recommendation": "High-entropy file, possibly encrypted; consider migrating to quantum-resistant algorithms like AES-256 or CRYSTALS-Kyber"
+            "policy_violations": [],
+            "pqc_recommendation": "Severity: Medium; High-entropy file, possibly encrypted; consider migrating to quantum-resistant algorithms like AES-256 or CRYSTALS-Kyber",
+            "remediation_guidance": "No remediation required"
         },
         {
             "id": "/home/santosh/Documents/Documents (1)/gem_doc/CDOT_CCRP_Application_Form.docx",
@@ -234,7 +386,9 @@
                 "encryption_markers": null,
                 "heuristics": "High entropy, possible encryption or compression"
             },
-            "pqc_recommendation": "High-entropy file, possibly encrypted; consider migrating to quantum-resistant algorithms like AES-256 or CRYSTALS-Kyber",
+            "policy_violations": [],
+            "pqc_recommendation": "Severity: Medium; High-entropy file, possibly encrypted; consider migrating to quantum-resistant algorithms like AES-256 or CRYSTALS-Kyber",
+            "remediation_guidance": "No remediation required",
             "is_anomaly": true,
             "anomaly_details": "Anomalous item: /home/santosh/Documents/Documents (1)/gem_doc/CDOT_CCRP_Application_Form.docx"
         },
@@ -254,7 +408,9 @@
                 "encryption_markers": null,
                 "heuristics": "Likely encrypted file"
             },
-            "pqc_recommendation": "High-entropy file, possibly encrypted; consider migrating to quantum-resistant algorithms like AES-256 or CRYSTALS-Kyber"
+            "policy_violations": [],
+            "pqc_recommendation": "Severity: Medium; High-entropy file, possibly encrypted; consider migrating to quantum-resistant algorithms like AES-256 or CRYSTALS-Kyber",
+            "remediation_guidance": "No remediation required"
         },
         {
             "id": "/home/santosh/Documents/Documents (1)/gem_doc/AI_specification.pdf",
@@ -272,7 +428,9 @@
                 "encryption_markers": null,
                 "heuristics": "Likely encrypted file"
             },
-            "pqc_recommendation": "High-entropy file, possibly encrypted; consider migrating to quantum-resistant algorithms like AES-256 or CRYSTALS-Kyber"
+            "policy_violations": [],
+            "pqc_recommendation": "Severity: Medium; High-entropy file, possibly encrypted; consider migrating to quantum-resistant algorithms like AES-256 or CRYSTALS-Kyber",
+            "remediation_guidance": "No remediation required"
         },
         {
             "id": "/home/santosh/Documents/Documents (1)/gem_doc/USP_STEM.odt",
@@ -290,7 +448,9 @@
                 "encryption_markers": null,
                 "heuristics": "High entropy, possible encryption or compression"
             },
-            "pqc_recommendation": "High-entropy file, possibly encrypted; consider migrating to quantum-resistant algorithms like AES-256 or CRYSTALS-Kyber"
+            "policy_violations": [],
+            "pqc_recommendation": "Severity: Medium; High-entropy file, possibly encrypted; consider migrating to quantum-resistant algorithms like AES-256 or CRYSTALS-Kyber",
+            "remediation_guidance": "No remediation required"
         },
         {
             "id": "/home/santosh/Documents/Documents (1)/gem_doc/BOQ.pdf",
@@ -308,7 +468,9 @@
                 "encryption_markers": null,
                 "heuristics": "Likely encrypted file"
             },
-            "pqc_recommendation": "High-entropy file, possibly encrypted; consider migrating to quantum-resistant algorithms like AES-256 or CRYSTALS-Kyber"
+            "policy_violations": [],
+            "pqc_recommendation": "Severity: Medium; High-entropy file, possibly encrypted; consider migrating to quantum-resistant algorithms like AES-256 or CRYSTALS-Kyber",
+            "remediation_guidance": "No remediation required"
         },
         {
             "id": "/home/santosh/Documents/Documents (1)/gem_doc/MAC.pdf",
@@ -326,7 +488,9 @@
                 "encryption_markers": null,
                 "heuristics": "Likely encrypted file"
             },
-            "pqc_recommendation": "High-entropy file, possibly encrypted; consider migrating to quantum-resistant algorithms like AES-256 or CRYSTALS-Kyber"
+            "policy_violations": [],
+            "pqc_recommendation": "Severity: Medium; High-entropy file, possibly encrypted; consider migrating to quantum-resistant algorithms like AES-256 or CRYSTALS-Kyber",
+            "remediation_guidance": "No remediation required"
         },
         {
             "id": "/home/santosh/Documents/Documents (1)/gem_doc/Company_Profile.pdf",
@@ -344,7 +508,9 @@
                 "encryption_markers": null,
                 "heuristics": "Likely encrypted file"
             },
-            "pqc_recommendation": "High-entropy file, possibly encrypted; consider migrating to quantum-resistant algorithms like AES-256 or CRYSTALS-Kyber"
+            "policy_violations": [],
+            "pqc_recommendation": "Severity: Medium; High-entropy file, possibly encrypted; consider migrating to quantum-resistant algorithms like AES-256 or CRYSTALS-Kyber",
+            "remediation_guidance": "No remediation required"
         },
         {
             "id": "/home/santosh/Documents/Documents (1)/gem_doc/isha resume.pdf",
@@ -362,10 +528,13 @@
                 "encryption_markers": null,
                 "heuristics": "Likely encrypted file"
             },
-            "pqc_recommendation": "High-entropy file, possibly encrypted; consider migrating to quantum-resistant algorithms like AES-256 or CRYSTALS-Kyber",
-            "is_anomaly": true,
-            "anomaly_details": "Anomalous item: /home/santosh/Documents/Documents (1)/gem_doc/isha resume.pdf"
+            "policy_violations": [],
+            "pqc_recommendation": "Severity: Medium; High-entropy file, possibly encrypted; consider migrating to quantum-resistant algorithms like AES-256 or CRYSTALS-Kyber",
+            "remediation_guidance": "No remediation required"
         }
     ],
-    "skipped_items": []
+    "skipped_items": [
+        "/etc/my.cnf: Database config not found",
+        "/etc/postgresql/pg_hba.conf: Database config not found"
+    ]
 }

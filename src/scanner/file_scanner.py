@@ -1,22 +1,30 @@
 import os
 import re
+import json
 import mimetypes
+import mysql.connector
+import psycopg2
 from utils.crypto_db import is_quantum_vulnerable, get_pqc_alternative, get_security_level, get_severity, ALGORITHMS
 from utils.helpers import setup_logger, calculate_entropy
 
 class FileScanner:
-    def __init__(self, target, require_root=True, scan_type="complete"):
+    def __init__(self, target, require_root=True, scan_type="complete", policies=None):
         self.target = target
         self.scan_type = scan_type  # complete, partition, folder, or file
         self.logger = setup_logger("FileScanner")
         self.skip_dirs = ["/proc", "/sys", "/dev", "/run"]
         self.skip_files = ["/swapfile"]
         self.require_root = require_root
+        self.policies = policies or [
+            {"name": "Minimum Key Strength", "rule": lambda algo, bits: not bits or (algo in ["RSA", "DSA", "DH"] and bits < 2048) or (algo in ["AES", "Blowfish", "Twofish"] and bits < 128), "severity": "High", "compliance": "GDPR, PCI-DSS"},
+            {"name": "Deprecated Algorithms", "rule": lambda algo, bits: algo in ["MD5", "SHA1", "DES", "3DES", "RC4"], "severity": "High", "compliance": "GDPR, PCI-DSS"}
+        ]
+        self.cbom = {"cryptographic_assets": []}  # Cryptographic Bill of Materials
         mimetypes.init()
 
     def scan(self):
         self.logger.info(f"Performing {self.scan_type} scan on {self.target}")
-        results = {"items": [], "skipped_items": []}
+        results = {"items": [], "skipped_items": [], "cbom": self.cbom}
         
         # Define scan targets based on scan_type
         if self.scan_type == "file":
@@ -29,7 +37,7 @@ class FileScanner:
             scan_files = []
             scan_dirs = [self.target]
         else:  # complete
-            scan_files = ["/etc/ssh/sshd_config", "/etc/ipsec.conf"]
+            scan_files = ["/etc/ssh/sshd_config", "/etc/ipsec.conf", "/etc/my.cnf", "/etc/postgresql/pg_hba.conf"]
             scan_dirs = ["/etc", "/home", "/var"] if self.require_root else [os.path.expanduser("~")]
 
         # Scan specific configuration files (for complete mode or explicit file scan)
@@ -46,19 +54,18 @@ class FileScanner:
                 with open(path, "r") as f:
                     content = f.read()
                     algorithms = self.detect_algorithms(content)
+                    analysis = self.analyze_file(path)
+                    policy_violations = self.check_policies(algorithms, path)
+                    remediation = self.get_remediation_guidance(algorithms, path)
+                    self.add_to_cbom(path, "file", algorithms, analysis, policy_violations)
                     results["items"].append({
                         "id": path,
                         "type": "file",
                         "algorithms": algorithms,
-                        "analysis": {
-                            "entropy": None,
-                            "header": "text",
-                            "extension": os.path.splitext(path)[1],
-                            "metadata": self.get_metadata(path),
-                            "encryption_markers": None,
-                            "heuristics": "Configuration file, no encryption"
-                        },
-                        "pqc_recommendation": self.get_pqc_recommendation(algorithms)
+                        "analysis": analysis,
+                        "policy_violations": policy_violations,
+                        "pqc_recommendation": self.get_pqc_recommendation(algorithms, analysis["entropy"] > 7.0 if analysis["entropy"] else False, path),
+                        "remediation_guidance": remediation
                     })
             except PermissionError:
                 results["skipped_items"].append(f"{path}: Permission denied")
@@ -84,22 +91,74 @@ class FileScanner:
                         continue
                     try:
                         analysis = self.analyze_file(file_path)
+                        algorithms = []
                         if analysis["entropy"] and analysis["entropy"] > 7.0:
-                            results["items"].append({
-                                "id": file_path,
-                                "type": "file",
-                                "algorithms": [],
-                                "analysis": analysis,
-                                "pqc_recommendation": self.get_pqc_recommendation([], is_high_entropy=True, file_path=file_path)
-                            })
+                            algorithms = self.detect_code_issues(file_path)
+                        else:
+                            with open(file_path, "r", errors="ignore") as f:
+                                content = f.read()
+                                algorithms = self.detect_algorithms(content)
+                        policy_violations = self.check_policies(algorithms, file_path)
+                        remediation = self.get_remediation_guidance(algorithms, file_path)
+                        self.add_to_cbom(file_path, "file", algorithms, analysis, policy_violations)
+                        results["items"].append({
+                            "id": file_path,
+                            "type": "file",
+                            "algorithms": algorithms,
+                            "analysis": analysis,
+                            "policy_violations": policy_violations,
+                            "pqc_recommendation": self.get_pqc_recommendation(algorithms, analysis["entropy"] > 7.0 if analysis["entropy"] else False, file_path),
+                            "remediation_guidance": remediation
+                        })
                     except PermissionError:
                         results["skipped_items"].append(f"{file_path}: Permission denied")
                         self.logger.warning(f"Permission denied for {file_path}, skipping")
                     except Exception as e:
                         results["skipped_items"].append(f"{file_path}: {str(e).split('(')[0].strip()}")
                         self.logger.warning(f"Failed to analyze {file_path}: {e}")
+
+        # Database configuration scanning (basic)
+        self.scan_database_configs(results)
         
+        # Save CBOM to file
+        cbom_path = os.path.join(self.target if os.path.isdir(self.target) else os.path.dirname(self.target), "cbom.json")
+        with open(cbom_path, "w") as f:
+            json.dump(self.cbom, f, indent=4)
+        self.logger.info(f"CBOM saved to {cbom_path}")
+
         return results
+
+    def scan_database_configs(self, results):
+        # Basic database config scanning for MySQL and PostgreSQL
+        db_configs = {
+            "mysql": "/etc/my.cnf",
+            "postgresql": "/etc/postgresql/pg_hba.conf"
+        }
+        for db_type, config_path in db_configs.items():
+            if not os.path.exists(config_path):
+                results["skipped_items"].append(f"{config_path}: Database config not found")
+                self.logger.warning(f"Skipping {config_path}: Database config not found")
+                continue
+            try:
+                with open(config_path, "r") as f:
+                    content = f.read()
+                    algorithms = self.detect_algorithms(content)
+                    analysis = self.analyze_file(config_path)
+                    policy_violations = self.check_policies(algorithms, config_path)
+                    remediation = self.get_remediation_guidance(algorithms, config_path)
+                    self.add_to_cbom(config_path, f"{db_type}_config", algorithms, analysis, policy_violations)
+                    results["items"].append({
+                        "id": config_path,
+                        "type": f"{db_type}_config",
+                        "algorithms": algorithms,
+                        "analysis": analysis,
+                        "policy_violations": policy_violations,
+                        "pqc_recommendation": self.get_pqc_recommendation(algorithms, analysis["entropy"] > 7.0 if analysis["entropy"] else False, config_path),
+                        "remediation_guidance": remediation
+                    })
+            except Exception as e:
+                results["skipped_items"].append(f"{config_path}: {str(e).split('(')[0].strip()}")
+                self.logger.warning(f"Failed to analyze {config_path}: {e}")
 
     def detect_algorithms(self, content):
         found = []
@@ -112,6 +171,27 @@ class FileScanner:
         # Deduplicate
         unique = {f['full']: f for f in found}.values()
         return list(unique)
+
+    def detect_code_issues(self, file_path):
+        algorithms = []
+        try:
+            with open(file_path, "r", errors="ignore") as f:
+                content = f.read()
+                # Detect hardcoded keys or weak algorithms in code
+                patterns = [
+                    (r"(?i)\b(private|public)\s+key\b.*=.*['\"]([0-9a-fA-F]+)['\"]", "Hardcoded Key"),
+                    (r"(?i)\b(RSA|DES|MD5|SHA1)\b", "Weak Algorithm in Code")
+                ]
+                for pattern, issue in patterns:
+                    for m in re.finditer(pattern, content, re.IGNORECASE):
+                        if issue == "Hardcoded Key":
+                            algorithms.append({"base": "Hardcoded Key", "bits": None, "full": "Hardcoded Key"})
+                        else:
+                            base = m.group(1)
+                            algorithms.append({"base": base, "bits": None, "full": base})
+            return algorithms
+        except Exception:
+            return []
 
     def analyze_file(self, file_path):
         analysis = {
@@ -169,6 +249,57 @@ class FileScanner:
         except Exception:
             return None
 
+    def check_policies(self, algorithms, file_path):
+        violations = []
+        for algo in algorithms:
+            for policy in self.policies:
+                if policy["rule"](algo["base"], algo["bits"]):
+                    violations.append({
+                        "policy_name": policy["name"],
+                        "severity": policy["severity"],
+                        "compliance": policy["compliance"],
+                        "details": f"{algo['full']} violates {policy['name']}"
+                    })
+        if not algorithms and os.path.splitext(file_path)[1].lower() in [".pem", ".key", ".crt"]:
+            violations.append({
+                "policy_name": "Potential Cryptographic Asset",
+                "severity": "Medium",
+                "compliance": "GDPR, PCI-DSS",
+                "details": "File extension suggests cryptographic material; verify usage"
+            })
+        return violations
+
+    def get_remediation_guidance(self, algorithms, file_path):
+        guidance = []
+        for algo in algorithms:
+            base = algo["base"]
+            if base == "Hardcoded Key":
+                guidance.append(f"Remove hardcoded key in {file_path}; use secure key management (e.g., HashiCorp Vault)")
+            elif is_quantum_vulnerable(base, algo["bits"]):
+                alt = get_pqc_alternative(base, algo["bits"])
+                if "ssh" in file_path.lower():
+                    guidance.append(f"Update {file_path} to use {alt} (e.g., `Ciphers aes256-ctr` in sshd_config)")
+                elif "mysql" in file_path.lower() or "postgresql" in file_path.lower():
+                    guidance.append(f"Configure {file_path} to use {alt} (e.g., set `ssl_cipher={alt}` in MySQL/PostgreSQL config)")
+                else:
+                    guidance.append(f"Replace {algo['full']} with {alt} in {file_path}")
+        if not algorithms and os.path.splitext(file_path)[1].lower() in [".pem", ".key", ".crt"]:
+            guidance.append(f"Verify {file_path} uses quantum-resistant algorithms; consider CRYSTALS-Kyber or Dilithium")
+        return "; ".join(guidance) if guidance else "No remediation required"
+
+    def add_to_cbom(self, item_id, item_type, algorithms, analysis, policy_violations):
+        asset = {
+            "id": item_id,
+            "type": item_type,
+            "algorithms": algorithms,
+            "metadata": analysis["metadata"],
+            "encryption_markers": analysis["encryption_markers"],
+            "heuristics": analysis["heuristics"],
+            "policy_violations": policy_violations,
+            "compliance_impact": [v["compliance"] for v in policy_violations] if policy_violations else []
+        }
+        self.cbom["cryptographic_assets"].append(asset)
+
     def get_pqc_recommendation(self, algorithms, is_high_entropy=False, file_path=None):
         if is_high_entropy and not algorithms:
             extension = os.path.splitext(file_path)[1].lower() if file_path else ""
@@ -185,8 +316,8 @@ class FileScanner:
             return "Severity: Low; No quantum-vulnerable algorithms detected"
         recommendations = []
         for a in algorithms:
-            base = a['base']
-            bits = a['bits']
+            base = a["base"]
+            bits = a["bits"]
             severity = get_severity(base, bits)
             if is_quantum_vulnerable(base, bits):
                 alt = get_pqc_alternative(base, bits)

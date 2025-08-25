@@ -1,6 +1,6 @@
 {
     "target": "https://localhost",
-    "scan_time": "2025-08-26T00:22:34.595594",
+    "scan_time": "2025-08-26T01:24:13.609764",
     "items": [
         {
             "id": "http",
@@ -10,7 +10,7 @@
                 "status_code": 200,
                 "headers": {
                     "Server": "nginx/1.18.0 (Ubuntu)",
-                    "Date": "Mon, 25 Aug 2025 18:50:06 GMT",
+                    "Date": "Mon, 25 Aug 2025 19:51:43 GMT",
                     "Content-Type": "text/html",
                     "Last-Modified": "Sun, 18 Feb 2024 20:21:28 GMT",
                     "Transfer-Encoding": "chunked",
@@ -26,7 +26,9 @@
                 "encryption_markers": null,
                 "heuristics": "HTTP protocol accessible, no encryption"
             },
-            "pqc_recommendation": "Severity: High; Migrate to HTTPS with quantum-resistant TLS ciphers (e.g., AES-256, CRYSTALS-Kyber)"
+            "policy_violations": [],
+            "pqc_recommendation": "Severity: High; Migrate to HTTPS with quantum-resistant TLS ciphers (e.g., AES-256, CRYSTALS-Kyber)",
+            "remediation_guidance": "No remediation required"
         },
         {
             "id": "port_22_tcp",
@@ -63,9 +65,9 @@
                     "full": "AES-256"
                 },
                 {
-                    "base": "ChaCha20",
+                    "base": "CHACHA20",
                     "bits": null,
-                    "full": "ChaCha20"
+                    "full": "CHACHA20"
                 },
                 {
                     "base": "SHA1",
@@ -85,7 +87,9 @@
                 "encryption_markers": "SSH ciphers detected",
                 "heuristics": "SSH service with cryptographic algorithms"
             },
-            "pqc_recommendation": "Severity: High; Migrate RSA (~0 bits security) to CRYSTALS-Dilithium for signatures or CRYSTALS-Kyber for key exchange at level 1 (e.g., Kyber-512); Severity: High; Migrate ECDSA (~0 bits security) to CRYSTALS-Dilithium at level 1 (e.g., Kyber-512); Severity: High; Migrate ECDH (~0 bits security) to CRYSTALS-Kyber at level 1 (e.g., Kyber-512); Severity: Medium; Migrate AES-128 (~64 bits security) to AES-256 at level 1 (e.g., Kyber-512); Severity: Medium; Migrate AES-192 (~96 bits security) to AES-256 at level 1 (e.g., Kyber-512); Severity: Low; Safe: AES-256 is quantum-resistant; Severity: Low; Safe: ChaCha20 is quantum-resistant; Severity: High; Migrate SHA1 (~80 bits security) to SHA-256 at level 1 (e.g., Kyber-512)",
+            "policy_violations": [],
+            "pqc_recommendation": "Severity: High; Migrate RSA (~0 bits security) to CRYSTALS-Dilithium for signatures or CRYSTALS-Kyber for key exchange at level 1 (e.g., Kyber-512); Severity: High; Migrate ECDSA (~0 bits security) to CRYSTALS-Dilithium at level 1 (e.g., Kyber-512); Severity: High; Migrate ECDH (~0 bits security) to CRYSTALS-Kyber at level 1 (e.g., Kyber-512); Severity: Medium; Migrate AES-128 (~64 bits security) to AES-256 at level 1 (e.g., Kyber-512); Severity: Medium; Migrate AES-192 (~96 bits security) to AES-256 at level 1 (e.g., Kyber-512); Severity: Low; Safe: AES-256 is quantum-resistant; Severity: Low; Safe: CHACHA20 is quantum-resistant; Severity: High; Migrate SHA1 (~80 bits security) to SHA-256 at level 1 (e.g., Kyber-512)",
+            "remediation_guidance": "Update SSH configuration to use CRYSTALS-Dilithium for signatures or CRYSTALS-Kyber for key exchange (e.g., `Ciphers aes256-ctr` in sshd_config); Update SSH configuration to use CRYSTALS-Dilithium (e.g., `Ciphers aes256-ctr` in sshd_config); Update SSH configuration to use CRYSTALS-Kyber (e.g., `Ciphers aes256-ctr` in sshd_config); Update SSH configuration to use AES-256 (e.g., `Ciphers aes256-ctr` in sshd_config); Update SSH configuration to use AES-256 (e.g., `Ciphers aes256-ctr` in sshd_config); Update SSH configuration to use SHA-256 (e.g., `Ciphers aes256-ctr` in sshd_config)",
             "is_anomaly": true,
             "anomaly_details": "Anomalous item: port_22_tcp"
         },
@@ -105,7 +109,9 @@
                 "encryption_markers": null,
                 "heuristics": "Open port: ipp"
             },
-            "pqc_recommendation": "Severity: Medium; Ensure service uses quantum-resistant algorithms (e.g., AES-256, CRYSTALS-Kyber)"
+            "policy_violations": [],
+            "pqc_recommendation": "Severity: Medium; Ensure service uses quantum-resistant algorithms (e.g., AES-256, CRYSTALS-Kyber)",
+            "remediation_guidance": "No remediation required"
         },
         {
             "id": "port_3306_tcp",
@@ -123,7 +129,9 @@
                 "encryption_markers": null,
                 "heuristics": "Open port: nagios-nsca"
             },
-            "pqc_recommendation": "Severity: Medium; Ensure service uses quantum-resistant algorithms (e.g., AES-256, CRYSTALS-Kyber)"
+            "policy_violations": [],
+            "pqc_recommendation": "Severity: Medium; Ensure service uses quantum-resistant algorithms (e.g., AES-256, CRYSTALS-Kyber)",
+            "remediation_guidance": "No remediation required"
         },
         {
             "id": "port_4369_tcp",
@@ -141,7 +149,9 @@
                 "encryption_markers": null,
                 "heuristics": "Open port: epmd"
             },
-            "pqc_recommendation": "Severity: Medium; Ensure service uses quantum-resistant algorithms (e.g., AES-256, CRYSTALS-Kyber)"
+            "policy_violations": [],
+            "pqc_recommendation": "Severity: Medium; Ensure service uses quantum-resistant algorithms (e.g., AES-256, CRYSTALS-Kyber)",
+            "remediation_guidance": "No remediation required"
         },
         {
             "id": "port_5432_tcp",
@@ -156,6 +166,11 @@
                     "base": "DH",
                     "bits": 2048,
                     "full": "DH-2048"
+                },
+                {
+                    "base": "RSA",
+                    "bits": null,
+                    "full": "RSA"
                 }
             ],
             "analysis": {
@@ -170,7 +185,9 @@
                 "encryption_markers": "TLS ciphers detected",
                 "heuristics": "TLS-enabled service"
             },
-            "pqc_recommendation": "Severity: High; Migrate RSA-2048 (~113 bits security) to CRYSTALS-Dilithium for signatures or CRYSTALS-Kyber for key exchange at level 1 (e.g., Kyber-512); Severity: High; Migrate DH-2048 (~113 bits security) to CRYSTALS-Kyber at level 1 (e.g., Kyber-512)"
+            "policy_violations": [],
+            "pqc_recommendation": "Severity: High; Migrate RSA-2048 (~113 bits security) to CRYSTALS-Dilithium for signatures or CRYSTALS-Kyber for key exchange at level 1 (e.g., Kyber-512); Severity: High; Migrate DH-2048 (~113 bits security) to CRYSTALS-Kyber at level 1 (e.g., Kyber-512); Severity: High; Migrate RSA (~0 bits security) to CRYSTALS-Dilithium for signatures or CRYSTALS-Kyber for key exchange at level 1 (e.g., Kyber-512)",
+            "remediation_guidance": "Configure postgresql to use CRYSTALS-Dilithium for signatures or CRYSTALS-Kyber for key exchange (e.g., set `SSLCipherSuite ECDHE-RSA-AES256-GCM-SHA384` in web server config); Configure postgresql to use CRYSTALS-Kyber (e.g., set `SSLCipherSuite ECDHE-RSA-AES256-GCM-SHA384` in web server config); Configure postgresql to use CRYSTALS-Dilithium for signatures or CRYSTALS-Kyber for key exchange (e.g., set `SSLCipherSuite ECDHE-RSA-AES256-GCM-SHA384` in web server config)"
         },
         {
             "id": "port_5672_tcp",
@@ -188,7 +205,9 @@
                 "encryption_markers": null,
                 "heuristics": "Open port: amqp"
             },
-            "pqc_recommendation": "Severity: Medium; Ensure service uses quantum-resistant algorithms (e.g., AES-256, CRYSTALS-Kyber)"
+            "policy_violations": [],
+            "pqc_recommendation": "Severity: Medium; Ensure service uses quantum-resistant algorithms (e.g., AES-256, CRYSTALS-Kyber)",
+            "remediation_guidance": "No remediation required"
         },
         {
             "id": "port_5939_tcp",
@@ -206,7 +225,9 @@
                 "encryption_markers": null,
                 "heuristics": "Open port: unknown"
             },
-            "pqc_recommendation": "Severity: Medium; Ensure service uses quantum-resistant algorithms (e.g., AES-256, CRYSTALS-Kyber)"
+            "policy_violations": [],
+            "pqc_recommendation": "Severity: Medium; Ensure service uses quantum-resistant algorithms (e.g., AES-256, CRYSTALS-Kyber)",
+            "remediation_guidance": "No remediation required"
         },
         {
             "id": "port_6379_tcp",
@@ -224,7 +245,9 @@
                 "encryption_markers": null,
                 "heuristics": "Open port: redis"
             },
-            "pqc_recommendation": "Severity: Medium; Ensure service uses quantum-resistant algorithms (e.g., AES-256, CRYSTALS-Kyber)"
+            "policy_violations": [],
+            "pqc_recommendation": "Severity: Medium; Ensure service uses quantum-resistant algorithms (e.g., AES-256, CRYSTALS-Kyber)",
+            "remediation_guidance": "No remediation required"
         },
         {
             "id": "port_7070_tcp",
@@ -244,6 +267,11 @@
                     "base": "3DES",
                     "bits": null,
                     "full": "3DES"
+                },
+                {
+                    "base": "RSA",
+                    "bits": null,
+                    "full": "RSA"
                 }
             ],
             "analysis": {
@@ -258,7 +286,16 @@
                 "encryption_markers": "TLS ciphers detected",
                 "heuristics": "TLS-enabled service"
             },
-            "pqc_recommendation": "Severity: High; Migrate RSA-2048 (~113 bits security) to CRYSTALS-Dilithium for signatures or CRYSTALS-Kyber for key exchange at level 1 (e.g., Kyber-512); Severity: High; Migrate DH-2048 (~113 bits security) to CRYSTALS-Kyber at level 1 (e.g., Kyber-512); Severity: High; Migrate 3DES (~56 bits security) to AES-256 at level 1 (e.g., Kyber-512)"
+            "policy_violations": [
+                {
+                    "policy_name": "Weak Ciphers",
+                    "severity": "High",
+                    "compliance": "PCI-DSS, GDPR",
+                    "details": "3DES violates Weak Ciphers in realserver"
+                }
+            ],
+            "pqc_recommendation": "Severity: High; Migrate RSA-2048 (~113 bits security) to CRYSTALS-Dilithium for signatures or CRYSTALS-Kyber for key exchange at level 1 (e.g., Kyber-512); Severity: High; Migrate DH-2048 (~113 bits security) to CRYSTALS-Kyber at level 1 (e.g., Kyber-512); Severity: High; Migrate 3DES (~56 bits security) to AES-256 at level 1 (e.g., Kyber-512); Severity: High; Migrate RSA (~0 bits security) to CRYSTALS-Dilithium for signatures or CRYSTALS-Kyber for key exchange at level 1 (e.g., Kyber-512)",
+            "remediation_guidance": "Configure realserver to use CRYSTALS-Dilithium for signatures or CRYSTALS-Kyber for key exchange (e.g., set `SSLCipherSuite ECDHE-RSA-AES256-GCM-SHA384` in web server config); Configure realserver to use CRYSTALS-Kyber (e.g., set `SSLCipherSuite ECDHE-RSA-AES256-GCM-SHA384` in web server config); Configure realserver to use AES-256 (e.g., set `SSLCipherSuite ECDHE-RSA-AES256-GCM-SHA384` in web server config); Configure realserver to use CRYSTALS-Dilithium for signatures or CRYSTALS-Kyber for key exchange (e.g., set `SSLCipherSuite ECDHE-RSA-AES256-GCM-SHA384` in web server config)"
         },
         {
             "id": "port_11434_tcp",
@@ -276,7 +313,9 @@
                 "encryption_markers": null,
                 "heuristics": "Open port: unknown"
             },
-            "pqc_recommendation": "Severity: Medium; Ensure service uses quantum-resistant algorithms (e.g., AES-256, CRYSTALS-Kyber)"
+            "policy_violations": [],
+            "pqc_recommendation": "Severity: Medium; Ensure service uses quantum-resistant algorithms (e.g., AES-256, CRYSTALS-Kyber)",
+            "remediation_guidance": "No remediation required"
         },
         {
             "id": "port_15672_tcp",
@@ -294,7 +333,9 @@
                 "encryption_markers": null,
                 "heuristics": "Open port: unknown"
             },
-            "pqc_recommendation": "Severity: Medium; Ensure service uses quantum-resistant algorithms (e.g., AES-256, CRYSTALS-Kyber)"
+            "policy_violations": [],
+            "pqc_recommendation": "Severity: Medium; Ensure service uses quantum-resistant algorithms (e.g., AES-256, CRYSTALS-Kyber)",
+            "remediation_guidance": "No remediation required"
         },
         {
             "id": "port_25672_tcp",
@@ -312,7 +353,9 @@
                 "encryption_markers": null,
                 "heuristics": "Open port: "
             },
-            "pqc_recommendation": "Severity: Medium; Ensure service uses quantum-resistant algorithms (e.g., AES-256, CRYSTALS-Kyber)"
+            "policy_violations": [],
+            "pqc_recommendation": "Severity: Medium; Ensure service uses quantum-resistant algorithms (e.g., AES-256, CRYSTALS-Kyber)",
+            "remediation_guidance": "No remediation required"
         },
         {
             "id": "port_27017_tcp",
@@ -330,7 +373,9 @@
                 "encryption_markers": null,
                 "heuristics": "Open port: mongodb"
             },
-            "pqc_recommendation": "Severity: Medium; Ensure service uses quantum-resistant algorithms (e.g., AES-256, CRYSTALS-Kyber)"
+            "policy_violations": [],
+            "pqc_recommendation": "Severity: Medium; Ensure service uses quantum-resistant algorithms (e.g., AES-256, CRYSTALS-Kyber)",
+            "remediation_guidance": "No remediation required"
         },
         {
             "id": "port_33060_tcp",
@@ -348,7 +393,9 @@
                 "encryption_markers": null,
                 "heuristics": "Open port: mysqlx"
             },
-            "pqc_recommendation": "Severity: Medium; Ensure service uses quantum-resistant algorithms (e.g., AES-256, CRYSTALS-Kyber)"
+            "policy_violations": [],
+            "pqc_recommendation": "Severity: Medium; Ensure service uses quantum-resistant algorithms (e.g., AES-256, CRYSTALS-Kyber)",
+            "remediation_guidance": "No remediation required"
         }
     ],
     "skipped_items": [

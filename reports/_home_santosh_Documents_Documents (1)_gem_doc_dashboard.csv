@@ -1,0 +1,8 @@
+Metric,Value
+Total Items Scanned,21
+High Severity Issues,3
+Medium Severity Issues,18
+Low Severity Issues,0
+Unknown Severity Issues,0
+Compliance Issues,"GDPR, PCI-DSS"
+Vulnerable Algorithms,"RSA, DES, md5, dEs, rsA, MD5"

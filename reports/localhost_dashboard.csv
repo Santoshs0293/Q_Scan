@@ -1,0 +1,8 @@
+Metric,Value
+Total Items Scanned,15
+High Severity Issues,4
+Medium Severity Issues,11
+Low Severity Issues,0
+Unknown Severity Issues,0
+Compliance Issues,"GDPR, PCI-DSS"
+Vulnerable Algorithms,"ECDH, DH-2048, ECDSA, SHA1, RSA, 3DES, RSA-2048, AES-128, AES-192"

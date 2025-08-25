@@ -1,3 +1,7 @@
+from utils.helpers import setup_logger
+
+logger = setup_logger("CryptoDB")
+
 ALGORITHMS = {
     # Classical Asymmetric (vulnerable to Shor's algorithm)
     "RSA": {
@@ -58,21 +62,21 @@ ALGORITHMS = {
         "security_level": lambda bits: 56,
         "severity": lambda bits: "High"
     },
-    "Blowfish": {
+    "BLOWFISH": {
         "type": "SYM",
         "vulnerable": lambda bits: bits < 128,
         "alternative": "AES-256",
         "security_level": lambda bits: bits // 2 if bits else 0,
         "severity": lambda bits: "High" if bits < 128 else "Medium"
     },
-    "Twofish": {
+    "TWOFISH": {
         "type": "SYM",
         "vulnerable": lambda bits: bits < 256,
         "alternative": "AES-256",
         "security_level": lambda bits: bits // 2 if bits else 0,
         "severity": lambda bits: "High" if bits < 128 else "Medium" if bits < 256 else "Low"
     },
-    "ChaCha20": {
+    "CHACHA20": {
         "type": "SYM",
         "vulnerable": False,
         "alternative": None,
@@ -125,28 +129,28 @@ ALGORITHMS = {
     },
     
     # Post-Quantum (safe)
-    "CRYSTALS-Kyber": {
+    "CRYSTALS-KYBER": {
         "type": "KEM",
         "vulnerable": False,
         "alternative": None,
         "security_level": lambda level: {512: 128, 768: 192, 1024: 256}.get(level, 128),
         "severity": lambda level: "Low"
     },
-    "Kyber": {
+    "KYBER": {
         "type": "KEM",
         "vulnerable": False,
         "alternative": None,
         "security_level": lambda level: {512: 128, 768: 192, 1024: 256}.get(level, 128),
         "severity": lambda level: "Low"
     },
-    "CRYSTALS-Dilithium": {
+    "CRYSTALS-DILITHIUM": {
         "type": "SIG",
         "vulnerable": False,
         "alternative": None,
         "security_level": lambda level: {2: 128, 3: 192, 5: 256}.get(level, 128),
         "severity": lambda level: "Low"
     },
-    "Dilithium": {
+    "DILITHIUM": {
         "type": "SIG",
         "vulnerable": False,
         "alternative": None,
@@ -195,7 +199,7 @@ ALGORITHMS = {
         "security_level": lambda level: {128: 128, 192: 192, 256: 256}.get(level, 128),
         "severity": lambda level: "Low"
     },
-    "Classic McEliece": {
+    "CLASSIC MCELIECE": {
         "type": "KEM",
         "vulnerable": False,
         "alternative": None,
@@ -209,7 +213,7 @@ ALGORITHMS = {
         "security_level": lambda level: 128,
         "severity": lambda level: "Low"
     },
-    "FrodoKEM": {
+    "FRODOKEM": {
         "type": "KEM",
         "vulnerable": False,
         "alternative": None,
@@ -219,22 +223,30 @@ ALGORITHMS = {
 }
 
 def is_quantum_vulnerable(base, bits=None):
+    base = base.upper()  # Normalize to uppercase
     if base not in ALGORITHMS:
-        return False
+        logger.warning(f"Unrecognized algorithm: {base}, assuming quantum-vulnerable")
+        return True
     vuln = ALGORITHMS[base]['vulnerable']
     return vuln if isinstance(vuln, bool) else vuln(bits)
 
 def get_pqc_alternative(base, bits=None):
+    base = base.upper()  # Normalize to uppercase
     if base not in ALGORITHMS:
-        return "Unknown"
+        logger.warning(f"Unrecognized algorithm: {base}, recommending CRYSTALS-Kyber as default")
+        return "CRYSTALS-Kyber"
     return ALGORITHMS[base]['alternative']
 
 def get_security_level(base, bits=None):
+    base = base.upper()  # Normalize to uppercase
     if base not in ALGORITHMS:
+        logger.warning(f"Unrecognized algorithm: {base}, assuming security level 0")
         return 0
     return ALGORITHMS[base]['security_level'](bits)
 
 def get_severity(base, bits=None):
+    base = base.upper()  # Normalize to uppercase
     if base not in ALGORITHMS:
-        return "Unknown"
+        logger.warning(f"Unrecognized algorithm: {base}, assuming High severity")
+        return "High"
     return ALGORITHMS[base]['severity'](bits)

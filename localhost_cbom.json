@@ -1,0 +1,285 @@
+{
+    "cryptographic_assets": [
+        {
+            "id": "http",
+            "type": "protocol",
+            "algorithms": [],
+            "metadata": {
+                "url": "http://localhost"
+            },
+            "encryption_markers": "None",
+            "heuristics": "None",
+            "policy_violations": [],
+            "compliance_impact": []
+        },
+        {
+            "id": "port_22_tcp",
+            "type": "port",
+            "algorithms": [
+                {
+                    "base": "RSA",
+                    "bits": null,
+                    "full": "RSA"
+                },
+                {
+                    "base": "ECDSA",
+                    "bits": null,
+                    "full": "ECDSA"
+                },
+                {
+                    "base": "ECDH",
+                    "bits": null,
+                    "full": "ECDH"
+                },
+                {
+                    "base": "AES",
+                    "bits": 128,
+                    "full": "AES-128"
+                },
+                {
+                    "base": "AES",
+                    "bits": 192,
+                    "full": "AES-192"
+                },
+                {
+                    "base": "AES",
+                    "bits": 256,
+                    "full": "AES-256"
+                },
+                {
+                    "base": "CHACHA20",
+                    "bits": null,
+                    "full": "CHACHA20"
+                },
+                {
+                    "base": "SHA1",
+                    "bits": null,
+                    "full": "SHA1"
+                }
+            ],
+            "metadata": {
+                "port": 22,
+                "protocol": "tcp"
+            },
+            "encryption_markers": "SSH ciphers detected",
+            "heuristics": "SSH service with cryptographic algorithms",
+            "policy_violations": [],
+            "compliance_impact": []
+        },
+        {
+            "id": "port_631_tcp",
+            "type": "port",
+            "algorithms": [],
+            "metadata": {
+                "port": 631,
+                "protocol": "tcp"
+            },
+            "encryption_markers": null,
+            "heuristics": "Open port: ipp",
+            "policy_violations": [],
+            "compliance_impact": []
+        },
+        {
+            "id": "port_3306_tcp",
+            "type": "port",
+            "algorithms": [],
+            "metadata": {
+                "port": 3306,
+                "protocol": "tcp"
+            },
+            "encryption_markers": null,
+            "heuristics": "Open port: nagios-nsca",
+            "policy_violations": [],
+            "compliance_impact": []
+        },
+        {
+            "id": "port_4369_tcp",
+            "type": "port",
+            "algorithms": [],
+            "metadata": {
+                "port": 4369,
+                "protocol": "tcp"
+            },
+            "encryption_markers": null,
+            "heuristics": "Open port: epmd",
+            "policy_violations": [],
+            "compliance_impact": []
+        },
+        {
+            "id": "port_5432_tcp",
+            "type": "port",
+            "algorithms": [
+                {
+                    "base": "RSA",
+                    "bits": 2048,
+                    "full": "RSA-2048"
+                },
+                {
+                    "base": "DH",
+                    "bits": 2048,
+                    "full": "DH-2048"
+                },
+                {
+                    "base": "RSA",
+                    "bits": null,
+                    "full": "RSA"
+                }
+            ],
+            "metadata": {
+                "port": 5432,
+                "protocol": "tcp"
+            },
+            "encryption_markers": "TLS ciphers detected",
+            "heuristics": "TLS-enabled service",
+            "policy_violations": [],
+            "compliance_impact": []
+        },
+        {
+            "id": "port_5672_tcp",
+            "type": "port",
+            "algorithms": [],
+            "metadata": {
+                "port": 5672,
+                "protocol": "tcp"
+            },
+            "encryption_markers": null,
+            "heuristics": "Open port: amqp",
+            "policy_violations": [],
+            "compliance_impact": []
+        },
+        {
+            "id": "port_5939_tcp",
+            "type": "port",
+            "algorithms": [],
+            "metadata": {
+                "port": 5939,
+                "protocol": "tcp"
+            },
+            "encryption_markers": null,
+            "heuristics": "Open port: unknown",
+            "policy_violations": [],
+            "compliance_impact": []
+        },
+        {
+            "id": "port_6379_tcp",
+            "type": "port",
+            "algorithms": [],
+            "metadata": {
+                "port": 6379,
+                "protocol": "tcp"
+            },
+            "encryption_markers": null,
+            "heuristics": "Open port: redis",
+            "policy_violations": [],
+            "compliance_impact": []
+        },
+        {
+            "id": "port_7070_tcp",
+            "type": "port",
+            "algorithms": [
+                {
+                    "base": "RSA",
+                    "bits": 2048,
+                    "full": "RSA-2048"
+                },
+                {
+                    "base": "DH",
+                    "bits": 2048,
+                    "full": "DH-2048"
+                },
+                {
+                    "base": "3DES",
+                    "bits": null,
+                    "full": "3DES"
+                },
+                {
+                    "base": "RSA",
+                    "bits": null,
+                    "full": "RSA"
+                }
+            ],
+            "metadata": {
+                "port": 7070,
+                "protocol": "tcp"
+            },
+            "encryption_markers": "TLS ciphers detected",
+            "heuristics": "TLS-enabled service",
+            "policy_violations": [
+                {
+                    "policy_name": "Weak Ciphers",
+                    "severity": "High",
+                    "compliance": "PCI-DSS, GDPR",
+                    "details": "3DES violates Weak Ciphers in realserver"
+                }
+            ],
+            "compliance_impact": [
+                "PCI-DSS, GDPR"
+            ]
+        },
+        {
+            "id": "port_11434_tcp",
+            "type": "port",
+            "algorithms": [],
+            "metadata": {
+                "port": 11434,
+                "protocol": "tcp"
+            },
+            "encryption_markers": null,
+            "heuristics": "Open port: unknown",
+            "policy_violations": [],
+            "compliance_impact": []
+        },
+        {
+            "id": "port_15672_tcp",
+            "type": "port",
+            "algorithms": [],
+            "metadata": {
+                "port": 15672,
+                "protocol": "tcp"
+            },
+            "encryption_markers": null,
+            "heuristics": "Open port: unknown",
+            "policy_violations": [],
+            "compliance_impact": []
+        },
+        {
+            "id": "port_25672_tcp",
+            "type": "port",
+            "algorithms": [],
+            "metadata": {
+                "port": 25672,
+                "protocol": "tcp"
+            },
+            "encryption_markers": null,
+            "heuristics": "Open port: ",
+            "policy_violations": [],
+            "compliance_impact": []
+        },
+        {
+            "id": "port_27017_tcp",
+            "type": "port",
+            "algorithms": [],
+            "metadata": {
+                "port": 27017,
+                "protocol": "tcp"
+            },
+            "encryption_markers": null,
+            "heuristics": "Open port: mongodb",
+            "policy_violations": [],
+            "compliance_impact": []
+        },
+        {
+            "id": "port_33060_tcp",
+            "type": "port",
+            "algorithms": [],
+            "metadata": {
+                "port": 33060,
+                "protocol": "tcp"
+            },
+            "encryption_markers": null,
+            "heuristics": "Open port: mysqlx",
+            "policy_violations": [],
+            "compliance_impact": []
+        }
+    ]
+}
