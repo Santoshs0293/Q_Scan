@@ -1,0 +1,299 @@
+{
+    "target": "https://localhost",
+    "scan_time": "2025-08-04T22:20:00.691483",
+    "items": [
+        {
+            "id": "http",
+            "type": "protocol",
+            "algorithms": [],
+            "analysis": {
+                "status_code": 200,
+                "headers": {
+                    "Server": "nginx/1.18.0 (Ubuntu)",
+                    "Date": "Mon, 04 Aug 2025 16:47:30 GMT",
+                    "Content-Type": "text/html",
+                    "Last-Modified": "Sun, 18 Feb 2024 20:21:28 GMT",
+                    "Transfer-Encoding": "chunked",
+                    "Connection": "keep-alive",
+                    "ETag": "W/\"65d266c8-29af\"",
+                    "Content-Encoding": "gzip"
+                },
+                "entropy": null,
+                "protocol": "HTTP",
+                "metadata": {
+                    "url": "http://localhost"
+                },
+                "encryption_markers": null,
+                "heuristics": "HTTP protocol accessible, no encryption"
+            },
+            "pqc_recommendation": "Migrate to HTTPS with quantum-resistant TLS ciphers (e.g., AES-256, CRYSTALS-Kyber)"
+        },
+        {
+            "id": "port_22_tcp",
+            "type": "port",
+            "algorithms": [
+                "RSA",
+                "ECDH",
+                "ECDSA",
+                "SHA1"
+            ],
+            "analysis": {
+                "entropy": null,
+                "service": "ssh",
+                "product": "OpenSSH",
+                "version": "8.9p1 Ubuntu 3ubuntu0.13",
+                "metadata": {
+                    "port": 22,
+                    "protocol": "tcp"
+                },
+                "encryption_markers": "SSH ciphers detected",
+                "heuristics": "SSH service with cryptographic algorithms"
+            },
+            "pqc_recommendation": "Kyber, FrodoKEM, CRYSTALS-Dilithium (signatures); Kyber, NTRU; Sphincs+, Falcon, CRYSTALS-Dilithium; SHA-256",
+            "is_anomaly": true,
+            "anomaly_details": "Anomalous item: port_22_tcp"
+        },
+        {
+            "id": "port_631_tcp",
+            "type": "port",
+            "algorithms": [],
+            "analysis": {
+                "entropy": null,
+                "service": "ipp",
+                "product": "CUPS",
+                "version": "2.4",
+                "metadata": {
+                    "port": 631,
+                    "protocol": "tcp"
+                },
+                "encryption_markers": null,
+                "heuristics": "Open port: ipp"
+            },
+            "pqc_recommendation": "Ensure service uses quantum-resistant algorithms (e.g., AES-256, CRYSTALS-Kyber)"
+        },
+        {
+            "id": "port_3306_tcp",
+            "type": "port",
+            "algorithms": [],
+            "analysis": {
+                "entropy": null,
+                "service": "nagios-nsca",
+                "product": "Nagios NSCA",
+                "version": "",
+                "metadata": {
+                    "port": 3306,
+                    "protocol": "tcp"
+                },
+                "encryption_markers": null,
+                "heuristics": "Open port: nagios-nsca"
+            },
+            "pqc_recommendation": "Ensure service uses quantum-resistant algorithms (e.g., AES-256, CRYSTALS-Kyber)"
+        },
+        {
+            "id": "port_4369_tcp",
+            "type": "port",
+            "algorithms": [],
+            "analysis": {
+                "entropy": null,
+                "service": "epmd",
+                "product": "Erlang Port Mapper Daemon",
+                "version": "",
+                "metadata": {
+                    "port": 4369,
+                    "protocol": "tcp"
+                },
+                "encryption_markers": null,
+                "heuristics": "Open port: epmd"
+            },
+            "pqc_recommendation": "Ensure service uses quantum-resistant algorithms (e.g., AES-256, CRYSTALS-Kyber)"
+        },
+        {
+            "id": "port_5432_tcp",
+            "type": "port",
+            "algorithms": [
+                "RSA"
+            ],
+            "analysis": {
+                "entropy": null,
+                "service": "postgresql",
+                "product": "PostgreSQL DB",
+                "version": "9.6.0 or later",
+                "metadata": {
+                    "port": 5432,
+                    "protocol": "tcp"
+                },
+                "encryption_markers": "TLS ciphers detected",
+                "heuristics": "TLS-enabled service"
+            },
+            "pqc_recommendation": "Kyber, FrodoKEM, CRYSTALS-Dilithium (signatures)"
+        },
+        {
+            "id": "port_5672_tcp",
+            "type": "port",
+            "algorithms": [],
+            "analysis": {
+                "entropy": null,
+                "service": "amqp",
+                "product": "RabbitMQ",
+                "version": "4.1.2",
+                "metadata": {
+                    "port": 5672,
+                    "protocol": "tcp"
+                },
+                "encryption_markers": null,
+                "heuristics": "Open port: amqp"
+            },
+            "pqc_recommendation": "Ensure service uses quantum-resistant algorithms (e.g., AES-256, CRYSTALS-Kyber)"
+        },
+        {
+            "id": "port_5939_tcp",
+            "type": "port",
+            "algorithms": [],
+            "analysis": {
+                "entropy": null,
+                "service": "unknown",
+                "product": "",
+                "version": "",
+                "metadata": {
+                    "port": 5939,
+                    "protocol": "tcp"
+                },
+                "encryption_markers": null,
+                "heuristics": "Open port: unknown"
+            },
+            "pqc_recommendation": "Ensure service uses quantum-resistant algorithms (e.g., AES-256, CRYSTALS-Kyber)"
+        },
+        {
+            "id": "port_6379_tcp",
+            "type": "port",
+            "algorithms": [],
+            "analysis": {
+                "entropy": null,
+                "service": "redis",
+                "product": "Redis key-value store",
+                "version": "6.0.16",
+                "metadata": {
+                    "port": 6379,
+                    "protocol": "tcp"
+                },
+                "encryption_markers": null,
+                "heuristics": "Open port: redis"
+            },
+            "pqc_recommendation": "Ensure service uses quantum-resistant algorithms (e.g., AES-256, CRYSTALS-Kyber)"
+        },
+        {
+            "id": "port_7071_tcp",
+            "type": "port",
+            "algorithms": [
+                "RSA",
+                "3DES"
+            ],
+            "analysis": {
+                "entropy": null,
+                "service": "iwg1",
+                "product": "",
+                "version": "",
+                "metadata": {
+                    "port": 7071,
+                    "protocol": "tcp"
+                },
+                "encryption_markers": "TLS ciphers detected",
+                "heuristics": "TLS-enabled service"
+            },
+            "pqc_recommendation": "Kyber, FrodoKEM, CRYSTALS-Dilithium (signatures); AES-256, ChaCha20"
+        },
+        {
+            "id": "port_11434_tcp",
+            "type": "port",
+            "algorithms": [],
+            "analysis": {
+                "entropy": null,
+                "service": "unknown",
+                "product": "",
+                "version": "",
+                "metadata": {
+                    "port": 11434,
+                    "protocol": "tcp"
+                },
+                "encryption_markers": null,
+                "heuristics": "Open port: unknown"
+            },
+            "pqc_recommendation": "Ensure service uses quantum-resistant algorithms (e.g., AES-256, CRYSTALS-Kyber)"
+        },
+        {
+            "id": "port_15672_tcp",
+            "type": "port",
+            "algorithms": [],
+            "analysis": {
+                "entropy": null,
+                "service": "unknown",
+                "product": "",
+                "version": "",
+                "metadata": {
+                    "port": 15672,
+                    "protocol": "tcp"
+                },
+                "encryption_markers": null,
+                "heuristics": "Open port: unknown"
+            },
+            "pqc_recommendation": "Ensure service uses quantum-resistant algorithms (e.g., AES-256, CRYSTALS-Kyber)"
+        },
+        {
+            "id": "port_25672_tcp",
+            "type": "port",
+            "algorithms": [],
+            "analysis": {
+                "entropy": null,
+                "service": "",
+                "product": "",
+                "version": "",
+                "metadata": {
+                    "port": 25672,
+                    "protocol": "tcp"
+                },
+                "encryption_markers": null,
+                "heuristics": "Open port: "
+            },
+            "pqc_recommendation": "Ensure service uses quantum-resistant algorithms (e.g., AES-256, CRYSTALS-Kyber)"
+        },
+        {
+            "id": "port_27017_tcp",
+            "type": "port",
+            "algorithms": [],
+            "analysis": {
+                "entropy": null,
+                "service": "mongodb",
+                "product": "MongoDB",
+                "version": "4.4.1",
+                "metadata": {
+                    "port": 27017,
+                    "protocol": "tcp"
+                },
+                "encryption_markers": null,
+                "heuristics": "Open port: mongodb"
+            },
+            "pqc_recommendation": "Ensure service uses quantum-resistant algorithms (e.g., AES-256, CRYSTALS-Kyber)"
+        },
+        {
+            "id": "port_33060_tcp",
+            "type": "port",
+            "algorithms": [],
+            "analysis": {
+                "entropy": null,
+                "service": "mysqlx",
+                "product": "",
+                "version": "",
+                "metadata": {
+                    "port": 33060,
+                    "protocol": "tcp"
+                },
+                "encryption_markers": null,
+                "heuristics": "Open port: mysqlx"
+            },
+            "pqc_recommendation": "Ensure service uses quantum-resistant algorithms (e.g., AES-256, CRYSTALS-Kyber)"
+        }
+    ],
+    "skipped_items": [
+        "https://localhost:443: Port 443 closed"
+    ]
+}

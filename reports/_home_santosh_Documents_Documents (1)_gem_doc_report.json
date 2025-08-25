@@ -1,0 +1,371 @@
+{
+    "target": "/home/santosh/Documents/Documents (1)/gem_doc",
+    "scan_time": "2025-08-04T22:20:56.386903",
+    "items": [
+        {
+            "id": "/home/santosh/Documents/Documents (1)/gem_doc/Ravi_internship.pdf",
+            "type": "file",
+            "algorithms": [],
+            "analysis": {
+                "entropy": 7.939217383375568,
+                "header": "unknown",
+                "extension": ".pdf",
+                "metadata": {
+                    "size": 72781,
+                    "mtime": 1733762600.9577167,
+                    "mime_type": "application/pdf"
+                },
+                "encryption_markers": null,
+                "heuristics": "Likely encrypted file"
+            },
+            "pqc_recommendation": "High-entropy file, possibly encrypted; consider migrating to quantum-resistant algorithms like AES-256 or CRYSTALS-Kyber"
+        },
+        {
+            "id": "/home/santosh/Documents/Documents (1)/gem_doc/ATC_merged_merged.pdf",
+            "type": "file",
+            "algorithms": [],
+            "analysis": {
+                "entropy": 7.967337111182288,
+                "header": "unknown",
+                "extension": ".pdf",
+                "metadata": {
+                    "size": 3306563,
+                    "mtime": 1729836843.725667,
+                    "mime_type": "application/pdf"
+                },
+                "encryption_markers": null,
+                "heuristics": "Likely encrypted file"
+            },
+            "pqc_recommendation": "High-entropy file, possibly encrypted; consider migrating to quantum-resistant algorithms like AES-256 or CRYSTALS-Kyber"
+        },
+        {
+            "id": "/home/santosh/Documents/Documents (1)/gem_doc/ATC3.pdf",
+            "type": "file",
+            "algorithms": [],
+            "analysis": {
+                "entropy": 7.985323466741317,
+                "header": "unknown",
+                "extension": ".pdf",
+                "metadata": {
+                    "size": 160889,
+                    "mtime": 1729836020.8338723,
+                    "mime_type": "application/pdf"
+                },
+                "encryption_markers": null,
+                "heuristics": "Likely encrypted file"
+            },
+            "pqc_recommendation": "High-entropy file, possibly encrypted; consider migrating to quantum-resistant algorithms like AES-256 or CRYSTALS-Kyber"
+        },
+        {
+            "id": "/home/santosh/Documents/Documents (1)/gem_doc/Company_Profile_ARD.pdf",
+            "type": "file",
+            "algorithms": [],
+            "analysis": {
+                "entropy": 7.928529744377135,
+                "header": "unknown",
+                "extension": ".pdf",
+                "metadata": {
+                    "size": 120371,
+                    "mtime": 1735191625.2853935,
+                    "mime_type": "application/pdf"
+                },
+                "encryption_markers": null,
+                "heuristics": "Likely encrypted file"
+            },
+            "pqc_recommendation": "High-entropy file, possibly encrypted; consider migrating to quantum-resistant algorithms like AES-256 or CRYSTALS-Kyber"
+        },
+        {
+            "id": "/home/santosh/Documents/Documents (1)/gem_doc/CDOT_CCRP_Application_Form.pdf",
+            "type": "file",
+            "algorithms": [],
+            "analysis": {
+                "entropy": 7.965512712769748,
+                "header": "unknown",
+                "extension": ".pdf",
+                "metadata": {
+                    "size": 82768,
+                    "mtime": 1730199973.8268964,
+                    "mime_type": "application/pdf"
+                },
+                "encryption_markers": null,
+                "heuristics": "Likely encrypted file"
+            },
+            "pqc_recommendation": "High-entropy file, possibly encrypted; consider migrating to quantum-resistant algorithms like AES-256 or CRYSTALS-Kyber"
+        },
+        {
+            "id": "/home/santosh/Documents/Documents (1)/gem_doc/letterhead.odt",
+            "type": "file",
+            "algorithms": [],
+            "analysis": {
+                "entropy": 7.98717805896073,
+                "header": "zip",
+                "extension": ".odt",
+                "metadata": {
+                    "size": 129643,
+                    "mtime": 1726553833.88154,
+                    "mime_type": "application/vnd.oasis.opendocument.text"
+                },
+                "encryption_markers": null,
+                "heuristics": "High entropy, possible encryption or compression"
+            },
+            "pqc_recommendation": "High-entropy file, possibly encrypted; consider migrating to quantum-resistant algorithms like AES-256 or CRYSTALS-Kyber"
+        },
+        {
+            "id": "/home/santosh/Documents/Documents (1)/gem_doc/experiance.pdf",
+            "type": "file",
+            "algorithms": [],
+            "analysis": {
+                "entropy": 7.976810734266773,
+                "header": "unknown",
+                "extension": ".pdf",
+                "metadata": {
+                    "size": 177264,
+                    "mtime": 1729836744.8385234,
+                    "mime_type": "application/pdf"
+                },
+                "encryption_markers": null,
+                "heuristics": "Likely encrypted file"
+            },
+            "pqc_recommendation": "High-entropy file, possibly encrypted; consider migrating to quantum-resistant algorithms like AES-256 or CRYSTALS-Kyber"
+        },
+        {
+            "id": "/home/santosh/Documents/Documents (1)/gem_doc/ATC4.pdf",
+            "type": "file",
+            "algorithms": [],
+            "analysis": {
+                "entropy": 7.9863524313057095,
+                "header": "unknown",
+                "extension": ".pdf",
+                "metadata": {
+                    "size": 158200,
+                    "mtime": 1729836184.3288758,
+                    "mime_type": "application/pdf"
+                },
+                "encryption_markers": null,
+                "heuristics": "Likely encrypted file"
+            },
+            "pqc_recommendation": "High-entropy file, possibly encrypted; consider migrating to quantum-resistant algorithms like AES-256 or CRYSTALS-Kyber"
+        },
+        {
+            "id": "/home/santosh/Documents/Documents (1)/gem_doc/Company_Profile (copy).odt",
+            "type": "file",
+            "algorithms": [],
+            "analysis": {
+                "entropy": 7.989951538736713,
+                "header": "zip",
+                "extension": ".odt",
+                "metadata": {
+                    "size": 169474,
+                    "mtime": 1738437526.2693613,
+                    "mime_type": "application/vnd.oasis.opendocument.text"
+                },
+                "encryption_markers": null,
+                "heuristics": "High entropy, possible encryption or compression"
+            },
+            "pqc_recommendation": "High-entropy file, possibly encrypted; consider migrating to quantum-resistant algorithms like AES-256 or CRYSTALS-Kyber"
+        },
+        {
+            "id": "/home/santosh/Documents/Documents (1)/gem_doc/STEM_proposal.odt",
+            "type": "file",
+            "algorithms": [],
+            "analysis": {
+                "entropy": 7.988177524965015,
+                "header": "zip",
+                "extension": ".odt",
+                "metadata": {
+                    "size": 134810,
+                    "mtime": 1733766784.6344771,
+                    "mime_type": "application/vnd.oasis.opendocument.text"
+                },
+                "encryption_markers": null,
+                "heuristics": "High entropy, possible encryption or compression"
+            },
+            "pqc_recommendation": "High-entropy file, possibly encrypted; consider migrating to quantum-resistant algorithms like AES-256 or CRYSTALS-Kyber"
+        },
+        {
+            "id": "/home/santosh/Documents/Documents (1)/gem_doc/Company_Profile.odt",
+            "type": "file",
+            "algorithms": [],
+            "analysis": {
+                "entropy": 7.988620205081774,
+                "header": "zip",
+                "extension": ".odt",
+                "metadata": {
+                    "size": 140362,
+                    "mtime": 1737799249.483278,
+                    "mime_type": "application/vnd.oasis.opendocument.text"
+                },
+                "encryption_markers": null,
+                "heuristics": "High entropy, possible encryption or compression"
+            },
+            "pqc_recommendation": "High-entropy file, possibly encrypted; consider migrating to quantum-resistant algorithms like AES-256 or CRYSTALS-Kyber"
+        },
+        {
+            "id": "/home/santosh/Documents/Documents (1)/gem_doc/ATC2.pdf",
+            "type": "file",
+            "algorithms": [],
+            "analysis": {
+                "entropy": 7.984286423338193,
+                "header": "unknown",
+                "extension": ".pdf",
+                "metadata": {
+                    "size": 174653,
+                    "mtime": 1729835021.435279,
+                    "mime_type": "application/pdf"
+                },
+                "encryption_markers": null,
+                "heuristics": "Likely encrypted file"
+            },
+            "pqc_recommendation": "High-entropy file, possibly encrypted; consider migrating to quantum-resistant algorithms like AES-256 or CRYSTALS-Kyber"
+        },
+        {
+            "id": "/home/santosh/Documents/Documents (1)/gem_doc/CDOT_CCRP_Application_Form.docx",
+            "type": "file",
+            "algorithms": [],
+            "analysis": {
+                "entropy": 7.941222115590118,
+                "header": "zip",
+                "extension": ".docx",
+                "metadata": {
+                    "size": 35391,
+                    "mtime": 1730201203.3159957,
+                    "mime_type": "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                },
+                "encryption_markers": null,
+                "heuristics": "High entropy, possible encryption or compression"
+            },
+            "pqc_recommendation": "High-entropy file, possibly encrypted; consider migrating to quantum-resistant algorithms like AES-256 or CRYSTALS-Kyber",
+            "is_anomaly": true,
+            "anomaly_details": "Anomalous item: /home/santosh/Documents/Documents (1)/gem_doc/CDOT_CCRP_Application_Form.docx"
+        },
+        {
+            "id": "/home/santosh/Documents/Documents (1)/gem_doc/USP_STEM.pdf",
+            "type": "file",
+            "algorithms": [],
+            "analysis": {
+                "entropy": 7.953270062294184,
+                "header": "unknown",
+                "extension": ".pdf",
+                "metadata": {
+                    "size": 114122,
+                    "mtime": 1735195233.1284788,
+                    "mime_type": "application/pdf"
+                },
+                "encryption_markers": null,
+                "heuristics": "Likely encrypted file"
+            },
+            "pqc_recommendation": "High-entropy file, possibly encrypted; consider migrating to quantum-resistant algorithms like AES-256 or CRYSTALS-Kyber"
+        },
+        {
+            "id": "/home/santosh/Documents/Documents (1)/gem_doc/AI_specification.pdf",
+            "type": "file",
+            "algorithms": [],
+            "analysis": {
+                "entropy": 7.909405016100712,
+                "header": "unknown",
+                "extension": ".pdf",
+                "metadata": {
+                    "size": 112442,
+                    "mtime": 1732254560.9446297,
+                    "mime_type": "application/pdf"
+                },
+                "encryption_markers": null,
+                "heuristics": "Likely encrypted file"
+            },
+            "pqc_recommendation": "High-entropy file, possibly encrypted; consider migrating to quantum-resistant algorithms like AES-256 or CRYSTALS-Kyber"
+        },
+        {
+            "id": "/home/santosh/Documents/Documents (1)/gem_doc/USP_STEM.odt",
+            "type": "file",
+            "algorithms": [],
+            "analysis": {
+                "entropy": 7.987915680901498,
+                "header": "zip",
+                "extension": ".odt",
+                "metadata": {
+                    "size": 139727,
+                    "mtime": 1735302512.613077,
+                    "mime_type": "application/vnd.oasis.opendocument.text"
+                },
+                "encryption_markers": null,
+                "heuristics": "High entropy, possible encryption or compression"
+            },
+            "pqc_recommendation": "High-entropy file, possibly encrypted; consider migrating to quantum-resistant algorithms like AES-256 or CRYSTALS-Kyber"
+        },
+        {
+            "id": "/home/santosh/Documents/Documents (1)/gem_doc/BOQ.pdf",
+            "type": "file",
+            "algorithms": [],
+            "analysis": {
+                "entropy": 7.979613076582699,
+                "header": "unknown",
+                "extension": ".pdf",
+                "metadata": {
+                    "size": 192661,
+                    "mtime": 1729836459.8445504,
+                    "mime_type": "application/pdf"
+                },
+                "encryption_markers": null,
+                "heuristics": "Likely encrypted file"
+            },
+            "pqc_recommendation": "High-entropy file, possibly encrypted; consider migrating to quantum-resistant algorithms like AES-256 or CRYSTALS-Kyber"
+        },
+        {
+            "id": "/home/santosh/Documents/Documents (1)/gem_doc/MAC.pdf",
+            "type": "file",
+            "algorithms": [],
+            "analysis": {
+                "entropy": 7.984110440976193,
+                "header": "unknown",
+                "extension": ".pdf",
+                "metadata": {
+                    "size": 160865,
+                    "mtime": 1729834709.4313707,
+                    "mime_type": "application/pdf"
+                },
+                "encryption_markers": null,
+                "heuristics": "Likely encrypted file"
+            },
+            "pqc_recommendation": "High-entropy file, possibly encrypted; consider migrating to quantum-resistant algorithms like AES-256 or CRYSTALS-Kyber"
+        },
+        {
+            "id": "/home/santosh/Documents/Documents (1)/gem_doc/Company_Profile.pdf",
+            "type": "file",
+            "algorithms": [],
+            "analysis": {
+                "entropy": 7.928551744539815,
+                "header": "unknown",
+                "extension": ".pdf",
+                "metadata": {
+                    "size": 134774,
+                    "mtime": 1733039824.8987367,
+                    "mime_type": "application/pdf"
+                },
+                "encryption_markers": null,
+                "heuristics": "Likely encrypted file"
+            },
+            "pqc_recommendation": "High-entropy file, possibly encrypted; consider migrating to quantum-resistant algorithms like AES-256 or CRYSTALS-Kyber"
+        },
+        {
+            "id": "/home/santosh/Documents/Documents (1)/gem_doc/isha resume.pdf",
+            "type": "file",
+            "algorithms": [],
+            "analysis": {
+                "entropy": 7.889415669755739,
+                "header": "unknown",
+                "extension": ".pdf",
+                "metadata": {
+                    "size": 46186,
+                    "mtime": 1733056740.9187288,
+                    "mime_type": "application/pdf"
+                },
+                "encryption_markers": null,
+                "heuristics": "Likely encrypted file"
+            },
+            "pqc_recommendation": "High-entropy file, possibly encrypted; consider migrating to quantum-resistant algorithms like AES-256 or CRYSTALS-Kyber",
+            "is_anomaly": true,
+            "anomaly_details": "Anomalous item: /home/santosh/Documents/Documents (1)/gem_doc/isha resume.pdf"
+        }
+    ],
+    "skipped_items": []
+}

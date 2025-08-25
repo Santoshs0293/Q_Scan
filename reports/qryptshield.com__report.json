@@ -1,0 +1,359 @@
+{
+    "target": "https://qryptshield.com/",
+    "scan_time": "2025-08-04T23:45:23.470997",
+    "items": [
+        {
+            "id": "http",
+            "type": "protocol",
+            "algorithms": [],
+            "analysis": {
+                "status_code": 200,
+                "headers": {
+                    "Server": "nginx/1.18.0 (Ubuntu)",
+                    "Date": "Mon, 04 Aug 2025 17:19:45 GMT",
+                    "Content-Type": "text/html",
+                    "Last-Modified": "Sat, 02 Aug 2025 08:24:27 GMT",
+                    "Transfer-Encoding": "chunked",
+                    "Connection": "keep-alive",
+                    "ETag": "W/\"688dcb3b-ead\"",
+                    "Content-Encoding": "gzip"
+                },
+                "entropy": null,
+                "protocol": "HTTP",
+                "metadata": {
+                    "url": "http://qryptshield.com"
+                },
+                "encryption_markers": null,
+                "heuristics": "HTTP protocol accessible, no encryption"
+            },
+            "pqc_recommendation": "Migrate to HTTPS with quantum-resistant TLS ciphers (e.g., AES-256, CRYSTALS-Kyber)"
+        },
+        {
+            "id": "port_22_tcp",
+            "type": "port",
+            "algorithms": [],
+            "analysis": {
+                "entropy": null,
+                "service": "ssh",
+                "product": "OpenSSH",
+                "version": "8.9p1 Ubuntu 3ubuntu0.13",
+                "metadata": {
+                    "port": 22,
+                    "protocol": "tcp"
+                },
+                "encryption_markers": null,
+                "heuristics": "Open port: ssh"
+            },
+            "pqc_recommendation": "Ensure service uses quantum-resistant algorithms (e.g., AES-256, CRYSTALS-Kyber)"
+        },
+        {
+            "id": "port_445_tcp",
+            "type": "port",
+            "algorithms": [],
+            "analysis": {
+                "entropy": null,
+                "service": "microsoft-ds",
+                "product": "",
+                "version": "",
+                "metadata": {
+                    "port": 445,
+                    "protocol": "tcp"
+                },
+                "encryption_markers": null,
+                "heuristics": "Open port: microsoft-ds"
+            },
+            "pqc_recommendation": "Ensure service uses quantum-resistant algorithms (e.g., AES-256, CRYSTALS-Kyber)"
+        },
+        {
+            "id": "port_2184_tcp",
+            "type": "port",
+            "algorithms": [],
+            "analysis": {
+                "entropy": null,
+                "service": "nvd",
+                "product": "",
+                "version": "",
+                "metadata": {
+                    "port": 2184,
+                    "protocol": "tcp"
+                },
+                "encryption_markers": null,
+                "heuristics": "Open port: nvd"
+            },
+            "pqc_recommendation": "Ensure service uses quantum-resistant algorithms (e.g., AES-256, CRYSTALS-Kyber)"
+        },
+        {
+            "id": "port_4000_tcp",
+            "type": "port",
+            "algorithms": [],
+            "analysis": {
+                "entropy": null,
+                "service": "remoteanything",
+                "product": "",
+                "version": "",
+                "metadata": {
+                    "port": 4000,
+                    "protocol": "tcp"
+                },
+                "encryption_markers": null,
+                "heuristics": "Open port: remoteanything"
+            },
+            "pqc_recommendation": "Ensure service uses quantum-resistant algorithms (e.g., AES-256, CRYSTALS-Kyber)"
+        },
+        {
+            "id": "port_5000_tcp",
+            "type": "port",
+            "algorithms": [],
+            "analysis": {
+                "entropy": null,
+                "service": "http",
+                "product": "Node.js Express framework",
+                "version": "",
+                "metadata": {
+                    "port": 5000,
+                    "protocol": "tcp"
+                },
+                "encryption_markers": null,
+                "heuristics": "Open port: http"
+            },
+            "pqc_recommendation": "Ensure service uses quantum-resistant algorithms (e.g., AES-256, CRYSTALS-Kyber)"
+        },
+        {
+            "id": "port_5005_tcp",
+            "type": "port",
+            "algorithms": [],
+            "analysis": {
+                "entropy": null,
+                "service": "http",
+                "product": "Node.js Express framework",
+                "version": "",
+                "metadata": {
+                    "port": 5005,
+                    "protocol": "tcp"
+                },
+                "encryption_markers": null,
+                "heuristics": "Open port: http"
+            },
+            "pqc_recommendation": "Ensure service uses quantum-resistant algorithms (e.g., AES-256, CRYSTALS-Kyber)"
+        },
+        {
+            "id": "port_5008_tcp",
+            "type": "port",
+            "algorithms": [],
+            "analysis": {
+                "entropy": null,
+                "service": "http",
+                "product": "Node.js Express framework",
+                "version": "",
+                "metadata": {
+                    "port": 5008,
+                    "protocol": "tcp"
+                },
+                "encryption_markers": null,
+                "heuristics": "Open port: http"
+            },
+            "pqc_recommendation": "Ensure service uses quantum-resistant algorithms (e.g., AES-256, CRYSTALS-Kyber)"
+        },
+        {
+            "id": "port_5015_tcp",
+            "type": "port",
+            "algorithms": [],
+            "analysis": {
+                "entropy": null,
+                "service": "http",
+                "product": "Node.js Express framework",
+                "version": "",
+                "metadata": {
+                    "port": 5015,
+                    "protocol": "tcp"
+                },
+                "encryption_markers": null,
+                "heuristics": "Open port: http"
+            },
+            "pqc_recommendation": "Ensure service uses quantum-resistant algorithms (e.g., AES-256, CRYSTALS-Kyber)"
+        },
+        {
+            "id": "port_5222_tcp",
+            "type": "port",
+            "algorithms": [],
+            "analysis": {
+                "entropy": null,
+                "service": "xmpp-client",
+                "product": "",
+                "version": "",
+                "metadata": {
+                    "port": 5222,
+                    "protocol": "tcp"
+                },
+                "encryption_markers": null,
+                "heuristics": "Open port: xmpp-client"
+            },
+            "pqc_recommendation": "Ensure service uses quantum-resistant algorithms (e.g., AES-256, CRYSTALS-Kyber)"
+        },
+        {
+            "id": "port_5269_tcp",
+            "type": "port",
+            "algorithms": [],
+            "analysis": {
+                "entropy": null,
+                "service": "xmpp-server",
+                "product": "",
+                "version": "",
+                "metadata": {
+                    "port": 5269,
+                    "protocol": "tcp"
+                },
+                "encryption_markers": null,
+                "heuristics": "Open port: xmpp-server"
+            },
+            "pqc_recommendation": "Ensure service uses quantum-resistant algorithms (e.g., AES-256, CRYSTALS-Kyber)"
+        },
+        {
+            "id": "port_5280_tcp",
+            "type": "port",
+            "algorithms": [],
+            "analysis": {
+                "entropy": null,
+                "service": "xmpp-bosh",
+                "product": "",
+                "version": "",
+                "metadata": {
+                    "port": 5280,
+                    "protocol": "tcp"
+                },
+                "encryption_markers": null,
+                "heuristics": "Open port: xmpp-bosh"
+            },
+            "pqc_recommendation": "Ensure service uses quantum-resistant algorithms (e.g., AES-256, CRYSTALS-Kyber)"
+        },
+        {
+            "id": "port_5432_tcp",
+            "type": "port",
+            "algorithms": [],
+            "analysis": {
+                "entropy": null,
+                "service": "postgresql",
+                "product": "PostgreSQL DB",
+                "version": "9.6.0 or later",
+                "metadata": {
+                    "port": 5432,
+                    "protocol": "tcp"
+                },
+                "encryption_markers": null,
+                "heuristics": "Open port: postgresql"
+            },
+            "pqc_recommendation": "Ensure service uses quantum-resistant algorithms (e.g., AES-256, CRYSTALS-Kyber)"
+        },
+        {
+            "id": "port_6379_tcp",
+            "type": "port",
+            "algorithms": [],
+            "analysis": {
+                "entropy": null,
+                "service": "redis",
+                "product": "Redis key-value store",
+                "version": "",
+                "metadata": {
+                    "port": 6379,
+                    "protocol": "tcp"
+                },
+                "encryption_markers": null,
+                "heuristics": "Open port: redis"
+            },
+            "pqc_recommendation": "Ensure service uses quantum-resistant algorithms (e.g., AES-256, CRYSTALS-Kyber)"
+        },
+        {
+            "id": "port_8008_tcp",
+            "type": "port",
+            "algorithms": [],
+            "analysis": {
+                "entropy": null,
+                "service": "http",
+                "product": "",
+                "version": "",
+                "metadata": {
+                    "port": 8008,
+                    "protocol": "tcp"
+                },
+                "encryption_markers": null,
+                "heuristics": "Open port: http"
+            },
+            "pqc_recommendation": "Ensure service uses quantum-resistant algorithms (e.g., AES-256, CRYSTALS-Kyber)"
+        },
+        {
+            "id": "port_8020_tcp",
+            "type": "port",
+            "algorithms": [],
+            "analysis": {
+                "entropy": null,
+                "service": "intu-ec-svcdisc",
+                "product": "",
+                "version": "",
+                "metadata": {
+                    "port": 8020,
+                    "protocol": "tcp"
+                },
+                "encryption_markers": null,
+                "heuristics": "Open port: intu-ec-svcdisc"
+            },
+            "pqc_recommendation": "Ensure service uses quantum-resistant algorithms (e.g., AES-256, CRYSTALS-Kyber)"
+        },
+        {
+            "id": "port_8888_tcp",
+            "type": "port",
+            "algorithms": [],
+            "analysis": {
+                "entropy": null,
+                "service": "http",
+                "product": "Octoshape P2P streaming web service",
+                "version": "",
+                "metadata": {
+                    "port": 8888,
+                    "protocol": "tcp"
+                },
+                "encryption_markers": null,
+                "heuristics": "Open port: http"
+            },
+            "pqc_recommendation": "Ensure service uses quantum-resistant algorithms (e.g., AES-256, CRYSTALS-Kyber)"
+        },
+        {
+            "id": "port_9090_tcp",
+            "type": "port",
+            "algorithms": [],
+            "analysis": {
+                "entropy": null,
+                "service": "zeus-admin",
+                "product": "",
+                "version": "",
+                "metadata": {
+                    "port": 9090,
+                    "protocol": "tcp"
+                },
+                "encryption_markers": null,
+                "heuristics": "Open port: zeus-admin"
+            },
+            "pqc_recommendation": "Ensure service uses quantum-resistant algorithms (e.g., AES-256, CRYSTALS-Kyber)"
+        },
+        {
+            "id": "port_27017_tcp",
+            "type": "port",
+            "algorithms": [],
+            "analysis": {
+                "entropy": null,
+                "service": "mongod",
+                "product": "",
+                "version": "",
+                "metadata": {
+                    "port": 27017,
+                    "protocol": "tcp"
+                },
+                "encryption_markers": null,
+                "heuristics": "Open port: mongod"
+            },
+            "pqc_recommendation": "Ensure service uses quantum-resistant algorithms (e.g., AES-256, CRYSTALS-Kyber)"
+        }
+    ],
+    "skipped_items": [
+        "https://qryptshield.com:443: Connection error - HTTPSConnectionPool"
+    ]
+}

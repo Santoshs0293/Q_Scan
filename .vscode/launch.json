@@ -1,0 +1,22 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Run Flask API",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/src/web_scanner.py",
+            "console": "integratedTerminal",
+            "justMyCode": true
+        },
+        {
+            "name": "Run CLI",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/src/main.py",
+            "args": ["--target", "example.com", "--mode", "blackbox"],
+            "console": "integratedTerminal",
+            "justMyCode": true
+        }
+    ]
+}
