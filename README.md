@@ -732,3 +732,4 @@ Run
 
 Copy
 python3 src/main.py --target https://localhost --mode blackbox --output reports
+# Q_Scan
