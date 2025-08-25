@@ -68,6 +68,7 @@ class ReportGenerator:
                 Paragraph("Heuristics", styles['Heading3']),
                 Paragraph("Encryption Markers", styles['Heading3']),
                 Paragraph("Algorithms", styles['Heading3']),
+                Paragraph("Severity", styles['Heading3']),
                 Paragraph("PQC Recommendation", styles['Heading3'])
             ]
         ]
@@ -80,11 +81,15 @@ class ReportGenerator:
             )
             
             algorithms = item.get("algorithms", [])
-            algo_str = ", ".join(algorithms) if algorithms else "None"
+            algo_str = ", ".join(a['full'] for a in algorithms) if algorithms else "None"
             
             heuristics = safe_str(item["analysis"].get("heuristics", "N/A"))
             if item.get("is_anomaly"):
                 heuristics += f"; Anomaly: {safe_str(item.get('anomaly_details'))}"
+            
+            # Extract severity from pqc_recommendation
+            pqc_rec = item.get("pqc_recommendation", "Severity: Low; No recommendation")
+            severity = pqc_rec.split(";")[0].replace("Severity: ", "").strip() if "Severity" in pqc_rec else "Low"
             
             table_data.append([
                 Paragraph(safe_str(item["id"]), cell_style),
@@ -93,10 +98,11 @@ class ReportGenerator:
                 Paragraph(safe_str(heuristics), cell_style),
                 Paragraph(safe_str(item["analysis"].get("encryption_markers", "None")), cell_style),
                 Paragraph(safe_str(algo_str), cell_style),
-                Paragraph(safe_str(item["pqc_recommendation"]), cell_style)
+                Paragraph(safe_str(severity), cell_style),
+                Paragraph(safe_str(pqc_rec), cell_style)
             ])
         
-        table = Table(table_data, colWidths=[75, 45, 75, 95, 75, 95, 108])
+        table = Table(table_data, colWidths=[70, 40, 70, 90, 70, 90, 50, 108])
         table.setStyle(TableStyle([
             ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
             ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),

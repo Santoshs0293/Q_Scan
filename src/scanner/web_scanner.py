@@ -1,4 +1,3 @@
-# web_scanner.py
 import requests
 from requests.exceptions import SSLError, RequestException
 import nmap
@@ -7,9 +6,10 @@ import socket
 import re
 from cryptography import x509
 from cryptography.hazmat.backends import default_backend
+from cryptography.hazmat.primitives.asymmetric import rsa, ec
 from flask import Flask, request, jsonify
 import urllib3
-from utils.crypto_db import is_quantum_vulnerable, get_pqc_alternative, CLASSICAL_ALGORITHMS
+from utils.crypto_db import is_quantum_vulnerable, get_pqc_alternative, get_security_level, get_severity, ALGORITHMS
 from utils.helpers import setup_logger, calculate_entropy
 
 class WebScanner:
@@ -76,7 +76,7 @@ class WebScanner:
                         "encryption_markers": None,
                         "heuristics": "HTTP protocol accessible, no encryption"
                     },
-                    "pqc_recommendation": "Migrate to HTTPS with quantum-resistant TLS ciphers (e.g., AES-256, CRYSTALS-Kyber)"
+                    "pqc_recommendation": "Severity: High; Migrate to HTTPS with quantum-resistant TLS ciphers (e.g., AES-256, CRYSTALS-Kyber)"
                 })
             except RequestException as e:
                 results["skipped_items"].append(f"http://{hostname}:80: Connection error - {str(e).split('(')[0].strip()}")
@@ -102,14 +102,14 @@ class WebScanner:
             results["skipped_items"].append(f"https://{hostname}:443: No SSL/TLS protocols supported by this Python version")
             self.logger.error("No SSL/TLS protocols supported by this Python version")
         elif is_port_open(target_ip, 443):
-            cert = self.get_tls_certificate(hostname, 443)
+            cert, cipher = self.get_tls_certificate(hostname, 443)
             for tls_name, tls_protocol in tls_versions:
                 try:
                     context = ssl.SSLContext(tls_protocol)
                     context.verify_mode = ssl.CERT_NONE  # Disable verify for localhost testing
                     http = urllib3.PoolManager(ssl_context=context)
                     response = http.request('GET', f"https://{hostname}", timeout=5)
-                    algorithms = self.analyze_tls(response, cert)
+                    algorithms = self.analyze_tls(response, cert, cipher)
                     analysis = {
                         "status_code": response.status,
                         "headers": dict(response.headers),
@@ -135,7 +135,7 @@ class WebScanner:
                             context.verify_mode = ssl.CERT_NONE
                             http = urllib3.PoolManager(ssl_context=context)
                             response = http.request('GET', f"https://{hostname}", timeout=5)
-                            algorithms = self.analyze_tls(response, cert)
+                            algorithms = self.analyze_tls(response, cert, cipher)
                             analysis = {
                                 "status_code": response.status,
                                 "headers": dict(response.headers),
@@ -212,10 +212,12 @@ class WebScanner:
                 with context.wrap_socket(sock, server_hostname=hostname) as ssock:
                     cert_der = ssock.getpeercert(True)
                     cert = x509.load_der_x509_certificate(cert_der, default_backend())
-                    return cert.public_bytes(encoding=x509.Encoding.PEM).decode('utf-8')
+                    cert_pem = cert.public_bytes(encoding=x509.Encoding.PEM).decode('utf-8')
+                    cipher = ssock.cipher()
+                    return cert_pem, cipher
         except Exception as e:
             self.logger.warning(f"Failed to retrieve TLS certificate for {hostname}:{port}: {e}")
-            return None
+            return None, None
 
     def get_cert_metadata(self, cert):
         if not cert:
@@ -232,61 +234,75 @@ class WebScanner:
             self.logger.warning(f"Failed to parse certificate metadata: {e}")
             return {}
 
-    def analyze_tls(self, response, cert):
+    def analyze_tls(self, response, cert, cipher):
         algorithms = []
         if cert:
             try:
                 cert_obj = x509.load_pem_x509_certificate(cert.encode(), default_backend())
                 pubkey = cert_obj.public_key()
-                algo_name = pubkey.__class__.__name__
-                algo_map = {
-                    "RSAPublicKey": "RSA",
-                    "EllipticCurvePublicKey": "ECDSA",
-                }
-                mapped_algo = algo_map.get(algo_name)
-                if mapped_algo and mapped_algo in CLASSICAL_ALGORITHMS:
-                    algorithms.append(mapped_algo)
+                if isinstance(pubkey, rsa.RSAPublicKey):
+                    bits = pubkey.key_size
+                    algorithms.append({"base": "RSA", "bits": bits, "full": f"RSA-{bits}"})
+                elif isinstance(pubkey, ec.EllipticCurvePublicKey):
+                    bits = pubkey.curve.key_size
+                    algorithms.append({"base": "ECDSA", "bits": bits, "full": f"ECDSA-{bits}"})
             except Exception as e:
                 self.logger.warning(f"Failed to analyze TLS certificate: {e}")
-        try:
-            cipher = response.headers.get('cipher', '').lower()
-            for algo in CLASSICAL_ALGORITHMS.keys():
-                if algo.lower() in cipher and algo not in algorithms:
-                    algorithms.append(algo)
-        except Exception:
-            pass
-        return algorithms
+        if cipher:
+            name, version, bits = cipher
+            parts = name.split('-')
+            for p in parts:
+                for base in ALGORITHMS.keys():
+                    match = re.match(fr"{re.escape(base)}(\d*)", p, re.I)
+                    if match:
+                        p_bits = int(match.group(1)) if match.group(1) else bits
+                        full = f"{base}-{p_bits}" if p_bits else base
+                        algorithms.append({"base": base, "bits": p_bits, "full": full})
+        # Deduplicate
+        unique = {a['full']: a for a in algorithms}.values()
+        return list(unique)
 
     def analyze_ssh(self, ssh_output):
-        algorithms = []
-        for algo in CLASSICAL_ALGORITHMS.keys():
-            pattern = fr"\b{re.escape(algo)}\b"
-            if re.search(pattern, ssh_output, re.IGNORECASE) and algo not in algorithms:
-                algorithms.append(algo)
-        return algorithms
+        return self.detect_algorithms(ssh_output)
 
     def analyze_nmap_tls(self, tls_output):
-        algorithms = []
-        for algo in CLASSICAL_ALGORITHMS.keys():
-            pattern = fr"\b{re.escape(algo)}\b"
-            if re.search(pattern, tls_output, re.IGNORECASE) and algo not in algorithms:
-                algorithms.append(algo)
-        return algorithms
+        return self.detect_algorithms(tls_output)
+
+    def detect_algorithms(self, content):
+        found = []
+        for base in ALGORITHMS.keys():
+            pattern = fr"\b{re.escape(base)}[- ]?(\d+)?\b"
+            for m in re.finditer(pattern, content, re.IGNORECASE):
+                bits = int(m.group(1)) if m.group(1) else None
+                full = f"{base}-{bits}" if bits else base
+                found.append({"base": base, "bits": bits, "full": full})
+        # Deduplicate
+        unique = {f['full']: f for f in found}.values()
+        return list(unique)
 
     def get_pqc_recommendation(self, algorithms, is_tls=False, is_service=False):
         if is_tls and not algorithms:
-            return "Use quantum-resistant TLS ciphers (e.g., AES-256, CRYSTALS-Kyber)"
+            return "Severity: High; Use quantum-resistant TLS ciphers (e.g., AES-256, CRYSTALS-Kyber)"
         if is_service and not algorithms:
-            return "Ensure service uses quantum-resistant algorithms (e.g., AES-256, CRYSTALS-Kyber)"
+            return "Severity: Medium; Ensure service uses quantum-resistant algorithms (e.g., AES-256, CRYSTALS-Kyber)"
         if not algorithms:
-            return "No quantum-vulnerable algorithms detected"
+            return "Severity: Low; No quantum-vulnerable algorithms detected"
         recommendations = []
-        for algo in algorithms:
-            if is_quantum_vulnerable(algo):
-                pqc_alt = get_pqc_alternative(algo)
-                if pqc_alt and pqc_alt != "Unknown":
-                    recommendations.append(pqc_alt)
-        return "; ".join(recommendations) if recommendations else "No quantum-vulnerable algorithms detected"
+        for a in algorithms:
+            base = a['base']
+            bits = a['bits']
+            severity = get_severity(base, bits)
+            if is_quantum_vulnerable(base, bits):
+                alt = get_pqc_alternative(base, bits)
+                sec = get_security_level(base, bits)
+                pqc_level = "level 1 (e.g., Kyber-512)" if sec <= 128 else "level 3 (e.g., Kyber-768)" if sec <= 192 else "level 5 (e.g., Kyber-1024)"
+                recommendations.append(f"Severity: {severity}; Migrate {a['full']} (~{sec} bits security) to {alt} at {pqc_level}")
+            else:
+                msg = f"Severity: {severity}; Safe: {a['full']} is quantum-resistant"
+                if base in ["CRYSTALS-Kyber", "Kyber", "CRYSTALS-Dilithium", "Dilithium", "FALCON", "SPHINCS+", "XMSS", "LMS", "BIKE", "HQC", "Classic McEliece", "NTRU", "FrodoKEM"]:
+                    msg += " (Post-Quantum Cryptography)"
+                recommendations.append(msg)
+        return "; ".join(recommendations) if recommendations else "Severity: Low; No quantum-vulnerable algorithms detected"
 
     def run(self):
         self.app.run(debug=False)

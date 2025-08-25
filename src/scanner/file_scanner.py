@@ -1,89 +1,7 @@
-# import os
-# import re
-# from utils.crypto_db import is_quantum_vulnerable
-# from utils.helpers import setup_logger, calculate_entropy
-
-# class FileScanner:
-#     def __init__(self, target, require_root=True):
-#         self.target = target
-#         self.logger = setup_logger()
-#         self.skip_dirs = ["/proc", "/sys", "/dev", "/run"]
-#         self.skip_files = ["/swapfile"]
-#         self.require_root = require_root
-
-#     def scan(self):
-#         self.logger.info(f"Performing complete device scan on {self.target}")
-#         results = {"vulnerabilities": [], "crypto_algorithms": [], "skipped_files": []}
-        
-#         # Scan configuration files
-#         config_paths = ["/etc/ssh/sshd_config", "/etc/ipsec.conf"]
-#         for path in config_paths:
-#             if not os.path.exists(path):
-#                 continue
-#             if self.require_root and os.geteuid() != 0:
-#                 results["skipped_files"].append(path)
-#                 self.logger.warning(f"Skipping {path}: Root privileges required")
-#                 continue
-#             try:
-#                 with open(path, "r") as f:
-#                     content = f.read()
-#                     algorithms = self.detect_algorithms(content)
-#                     results["crypto_algorithms"].extend(algorithms)
-#             except PermissionError:
-#                 results["skipped_files"].append(path)
-#                 self.logger.warning(f"Permission denied for {path}, skipping")
-#             except Exception as e:
-#                 results["skipped_files"].append(path)
-#                 self.logger.warning(f"Failed to read {path}: {e}")
-        
-#         # Scan file system for encrypted files
-#         scan_dirs = ["/etc", "/home", "/var"] if self.require_root else [os.path.expanduser("~")]
-#         for scan_dir in scan_dirs:
-#             if not os.path.exists(scan_dir):
-#                 continue
-#             for root, dirs, files in os.walk(scan_dir):
-#                 if any(root.startswith(d) for d in self.skip_dirs):
-#                     continue
-#                 for file in files:
-#                     file_path = os.path.join(root, file)
-#                     if file_path in self.skip_files:
-#                         results["skipped_files"].append(file_path)
-#                         self.logger.warning(f"Skipping system file: {file_path}")
-#                         continue
-#                     entropy = calculate_entropy(file_path)
-#                     if entropy and entropy > 7.0:
-#                         results["vulnerabilities"].append({
-#                             "type": "possible_encrypted_file",
-#                             "details": f"High entropy file: {file_path} (entropy: {entropy:.2f})"
-#                         })
-        
-#         return results
-
-#     def detect_algorithms(self, content):
-#         algorithms = []
-#         patterns = {
-#             "RSA": r"\bRSA\b",
-#             "ECDH": r"\bECDH\b",
-#             "ECDSA": r"\bECDSA\b",
-#             "AES-128": r"\bAES-128\b",
-#             "3DES": r"\b3DES\b",
-#             "SHA1": r"\bSHA1\b",
-#             "MD5": r"\bMD5\b"
-#         }
-#         for algo, pattern in patterns.items():
-#             if re.search(pattern, content, re.IGNORECASE):
-#                 algorithms.append({
-#                     "algorithm": algo,
-#                     "quantum_vulnerable": is_quantum_vulnerable(algo)
-#                 })
-#         return algorithms
-
-
-#file_scanner.py
 import os
 import re
 import mimetypes
-from utils.crypto_db import is_quantum_vulnerable, get_pqc_alternative, CLASSICAL_ALGORITHMS
+from utils.crypto_db import is_quantum_vulnerable, get_pqc_alternative, get_security_level, get_severity, ALGORITHMS
 from utils.helpers import setup_logger, calculate_entropy
 
 class FileScanner:
@@ -184,13 +102,16 @@ class FileScanner:
         return results
 
     def detect_algorithms(self, content):
-        algorithms = []
-        for algo in CLASSICAL_ALGORITHMS.keys():
-            # Use exact match with word boundaries, case-insensitive
-            pattern = fr"\b{re.escape(algo)}\b"
-            if re.search(pattern, content, re.IGNORECASE) and algo not in algorithms:
-                algorithms.append(algo)
-        return algorithms
+        found = []
+        for base in ALGORITHMS.keys():
+            pattern = fr"\b{re.escape(base)}[- ]?(\d+)?\b"
+            for m in re.finditer(pattern, content, re.IGNORECASE):
+                bits = int(m.group(1)) if m.group(1) else None
+                full = f"{base}-{bits}" if bits else base
+                found.append({"base": base, "bits": bits, "full": full})
+        # Deduplicate
+        unique = {f['full']: f for f in found}.values()
+        return list(unique)
 
     def analyze_file(self, file_path):
         analysis = {
@@ -253,19 +174,28 @@ class FileScanner:
             extension = os.path.splitext(file_path)[1].lower() if file_path else ""
             header = self.get_file_header(file_path) if file_path else "unknown"
             if extension in [".gz", ".zip"]:
-                return "Compressed file detected; no quantum-resistant migration needed unless encryption is also used"
+                return "Severity: Low; Compressed file detected; no quantum-resistant migration needed unless encryption is also used"
             elif extension in [".pem", ".key", ".crt"]:
-                return "Likely cryptographic key or certificate; migrate to quantum-resistant algorithms like CRYSTALS-Kyber or CRYSTALS-Dilithium"
+                return "Severity: High; Likely cryptographic key or certificate; migrate to quantum-resistant algorithms like CRYSTALS-Kyber or CRYSTALS-Dilithium"
             elif header == "openssl":
-                return "OpenSSL-encrypted file detected; migrate to quantum-resistant algorithms like AES-256 or CRYSTALS-Kyber"
+                return "Severity: High; OpenSSL-encrypted file detected; migrate to quantum-resistant algorithms like AES-256 or CRYSTALS-Kyber"
             else:
-                return "High-entropy file, possibly encrypted; consider migrating to quantum-resistant algorithms like AES-256 or CRYSTALS-Kyber"
+                return "Severity: Medium; High-entropy file, possibly encrypted; consider migrating to quantum-resistant algorithms like AES-256 or CRYSTALS-Kyber"
         if not algorithms:
-            return "No quantum-vulnerable algorithms detected"
+            return "Severity: Low; No quantum-vulnerable algorithms detected"
         recommendations = []
-        for algo in algorithms:
-            if is_quantum_vulnerable(algo):
-                pqc_alt = get_pqc_alternative(algo)
-                if pqc_alt and pqc_alt != "Unknown":
-                    recommendations.append(pqc_alt)
-        return "; ".join(recommendations) if recommendations else "No quantum-vulnerable algorithms detected"
+        for a in algorithms:
+            base = a['base']
+            bits = a['bits']
+            severity = get_severity(base, bits)
+            if is_quantum_vulnerable(base, bits):
+                alt = get_pqc_alternative(base, bits)
+                sec = get_security_level(base, bits)
+                pqc_level = "level 1 (e.g., Kyber-512)" if sec <= 128 else "level 3 (e.g., Kyber-768)" if sec <= 192 else "level 5 (e.g., Kyber-1024)"
+                recommendations.append(f"Severity: {severity}; Migrate {a['full']} (~{sec} bits security) to {alt} at {pqc_level}")
+            else:
+                msg = f"Severity: {severity}; Safe: {a['full']} is quantum-resistant"
+                if base in ["CRYSTALS-Kyber", "Kyber", "CRYSTALS-Dilithium", "Dilithium", "FALCON", "SPHINCS+", "XMSS", "LMS", "BIKE", "HQC", "Classic McEliece", "NTRU", "FrodoKEM"]:
+                    msg += " (Post-Quantum Cryptography)"
+                recommendations.append(msg)
+        return "; ".join(recommendations) if recommendations else "Severity: Low; No quantum-vulnerable algorithms detected"
